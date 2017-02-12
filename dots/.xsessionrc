@@ -1,0 +1,25 @@
+# remapping info:
+#  man 7 xkeyboard-config
+
+# For the either of the following remapping commands,
+#   .profile, .xsession, & .xinitrc are all too early in the startup process
+#   and are overwritten later (under gnome/ubuntu, at least)
+#   adding user-level @reboot cron (via crontab -e [-u user]) also didn't work
+# /usr/bin/setxkbmap -option 'caps:ctrl_modifier'
+# /usr/bin/setxkbmap -option ctrl:nocaps
+# now: install dconf-editor and http://askubuntu.com/a/365701
+# or: `dconf write /org/gnome/desktop/input-sources/xkb-options "['ctrl:nocaps']"`
+#  
+# remaining alternative:
+#   systemd, per-user
+#   xmodmap: https://askubuntu.com/questions/363346/how-to-permanently-switch-caps-lock-and-esc
+#   https://github.com/oblitum/caps2esc
+
+# This mapping works, but is not enough for me without one of the preceeding mappings
+# Didn't work in .xinitrc, .xsession. Didn't try .xprofile.
+# Also didn't try the above setxkbmap command here
+# Mapping both 'modifiers' right now. This runs before gnome keymappings take effect.
+# /usr/bin/xcape -e 'Caps_Lock=Escape;Control_L=Escape' -t 100
+# /usr/bin/xcape -e 'Control_L=Escape' -t 100
+/usr/bin/xcape -e 'Caps_Lock=Escape;Control_L=Escape' -t 100
+

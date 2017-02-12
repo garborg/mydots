@@ -1,0 +1,8 @@
+#
+#/usr/bin/setxkbmap -option 'caps:ctrl_modifier'
+#/usr/bin/setxkbmap -option ctrl:nocaps
+# /usr/bin/xcape -e 'Caps_Lock=Escape' -t 100
+# WHAT is .xsessionrc?
+
+# /usr/bin/xcape -e 'Caps_Lock=Escape;Control_L=Escape' -t 100
+
