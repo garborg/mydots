@@ -25,4 +25,6 @@ fi
 
 
 ### my additions:
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
