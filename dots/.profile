@@ -24,7 +24,17 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 
-### my additions:
+### my general additions:
+
 export VISUAL=vim
 export EDITOR="$VISUAL"
+
+### language-specific:
+
+#javascript
+export NVM_DIR="/home/sean/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# go
+export PATH=$PATH:/usr/local/go/bin
 

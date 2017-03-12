@@ -9,7 +9,6 @@
 	ui = auto
 [alias]
 	ck = checkout
-	cp = cherry-pick
 	d = diff
 	dc = diff --cached
 	ds = diff --stat -r
@@ -17,7 +16,7 @@
 	lgb = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%n%b' --abbrev-commit --date=relative
 	pullom = !git fetch origin && git merge --ff-only origin/master
 	pr = "!f() { git fetch origin refs/pull/$1/head:$2; git checkout $2; }; f" # pass args [PR #] & [new branch name], and it fetches, creates, checks out
-	ss = status
+	s = status
 	unstage = reset HEAD --
 	untrack = rm --cache --
 	visual = !gitk # gui tool, not installed by default on linux
