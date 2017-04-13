@@ -7,6 +7,7 @@
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
+" http://vim.spf13.com/
 " many options for file/directory/buffer/etc nav
 " Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " ctrlpvim/ctrlp.vim, wincent/command-t,
@@ -25,6 +26,7 @@ Plug 'editorconfig/editorconfig-vim'
 
 "Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
+Plug 'fatih/vim-go'
 call plug#end()
 
 " ensure that editorconfig works well with fugituve
@@ -54,21 +56,42 @@ let g:netrw_banner = 0
 "   autocmd VimEnter * :Vexplore
 " augroup END
 
-" call out tabs and trailing space
+" call out whitespace
 set list
-set listchars=tab:!·,trail:·
+set showbreak=↪\
+set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
+" TODO: looks like sensible sets alright listchars
 
-"case insensitive search by default
-set ignorecase
-set smartcase
+" display tabs 4 wide
+set tabstop=4
+
+"set hlsearch
 
 " enable open/close movement beyond parens. e.g. html, if/else, do/end
 runtime macros/matchit.vim
+" TODO: looks like sensible does this (but w/ 'runtime!')
 
-" Kinda language-specific again:
+" Language-specific again:
 
 " let g:julia_blocks=0 " maybe turn of julia-vim's matchit mappings
 " let g:default_julia_version = "devel"
+
+" Use goimports on save (.go files)
+let g:go_fmt_command = "goimports"
+
+" Syntax highlighting
+" let g:go_highlight_operators = 1
+
+" Sometimes when using both vim-go and syntastic Vim will start lagging while saving and opening files. The following fixes this:
+" let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+" let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
+" Another issue with vim-go and syntastic is that the location list window that contains the output of commands such as :GoBuild and :GoTest might not appear. To resolve this:
+" let g:go_list_type = "quickfix"
+
+" Why wasn't :GoDoc working for me, how to get back after :GoDef?
+" Real-time autocomplete: https://github.com/Shougo/neocomplete.vim
+" Tag browsing: https://github.com/majutsushi/tagbar
 
 set wildignore+=*/node_modules/*,*/vendor/*
 

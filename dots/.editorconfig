@@ -25,6 +25,11 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = false
 
-[{*.go,Makefile}]
+[Makefile]
 indent_style = tab
+
+[*.go]
+indent_style = tab
+insert_final_newline = false
+trim_trailing_whitespace = false # 'go-vim' doesn't like competition
 

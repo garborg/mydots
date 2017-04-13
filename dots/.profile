@@ -37,4 +37,6 @@ export NVM_DIR="/home/sean/.nvm"
 
 # go
 export PATH=$PATH:/usr/local/go/bin
+gocd () { cd `go list -f '{{.Dir}}' $1`; } # gocd .../mypkg
+export -f gocd
 
