@@ -13,13 +13,13 @@
 	dc = diff --cached
 	ds = diff --stat -r
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	lgb = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%n%b' --abbrev-commit --date=relative
+	lgv = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%n%b' --abbrev-commit --date=relative
 	pullom = !git fetch origin && git merge --ff-only origin/master
 	pr = "!f() { git fetch origin refs/pull/$1/head:$2; git checkout $2; }; f" # pass args [PR #] & [new branch name], and it fetches, creates, checks out
+	rv = remote -v
 	s = status
 	unstage = reset HEAD --
 	untrack = rm --cache --
-	visual = !gitk # gui tool, not installed by default on linux
 	wipe = "!f() { rev=$(git rev-parse ${1-HEAD}); git add -A && git commit --allow-empty -qm 'WIPE SAVEPOINT' && git reset $rev --hard; }; f" # diff vs reset --hard HEAD?
 [credential]
 	helper = cache --timeout 3600 # = osxkeychain on osx
