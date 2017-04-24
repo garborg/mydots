@@ -12,7 +12,7 @@ trim_trailing_whitespace = true  # some non-md files are whitespace sensitive: l
 
 # Extension-specific formatting
 
-[*.{js,r,R,scala,sh,bash,html,json,yml}]
+[*.{js,r,R,scala,sh,bash,html,xml,json,yml}]
 indent_style = space
 indent_size = 2
 
