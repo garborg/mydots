@@ -16,7 +16,6 @@
 	lgv = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%n%b' --abbrev-commit --date=relative
 	pullom = !git fetch origin && git merge --ff-only origin/master
 	pr = "!f() { git fetch origin refs/pull/$1/head:$2; git checkout $2; }; f" # pass args [PR #] & [new branch name], and it fetches, creates, checks out
-	rv = remote -v
 	s = status
 	unstage = reset HEAD --
 	untrack = rm --cache --

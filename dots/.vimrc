@@ -71,6 +71,9 @@ set tabstop=4
 runtime macros/matchit.vim
 " TODO: looks like sensible does this (but w/ 'runtime!')
 
+" toggle paste mode (including w/in insert mode)
+set pastetoggle=<F10>
+
 " Language-specific again:
 
 " let g:julia_blocks=0 " maybe turn of julia-vim's matchit mappings
