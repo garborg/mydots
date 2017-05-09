@@ -15,7 +15,9 @@ Plug 'tpope/vim-sensible'
 " https://github.com/Shougo/denite.nvim
 " https://github.com/junegunn/fzf.vim
 Plug 'tpope/vim-fugitive' " vim-gitgutter
-Plug 'scrooloose/syntastic' " alt: https://github.com/neomake/neomake
+Plug 'scrooloose/syntastic' " alt: 'w0rp/ale', https://github.com/neomake/neomake
+" YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
+Plug 'sbdchd/neoformat' "alt: Chiel92/vim-autoformat, vim-codefmt
 Plug 'surround.vim'
 Plug 'editorconfig/editorconfig-vim'
 
@@ -56,11 +58,14 @@ let g:netrw_banner = 0
 "   autocmd VimEnter * :Vexplore
 " augroup END
 
+" carry ubuntu default everywhere
+colorscheme ron
+
 " call out whitespace
 set list
 set showbreak=↪\
+" sensible sets alright listchars if you need ascii
 set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
-" TODO: looks like sensible sets alright listchars
 
 " display tabs 4 wide
 set tabstop=4
@@ -75,6 +80,8 @@ runtime macros/matchit.vim
 set pastetoggle=<F10>
 
 " Language-specific again:
+
+"let g:neoformat_enabled_javascript = ['prettier']
 
 " let g:julia_blocks=0 " maybe turn of julia-vim's matchit mappings
 " let g:default_julia_version = "devel"
