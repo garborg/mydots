@@ -8,12 +8,9 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 " http://vim.spf13.com/
-" many options for file/directory/buffer/etc nav
-" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-" ctrlpvim/ctrlp.vim, wincent/command-t,
-" https://news.ycombinator.com/item?id=4218575
-" https://github.com/Shougo/denite.nvim
-" https://github.com/junegunn/fzf.vim
+" many options for file/directory/buffer/etc nav:
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim' " alt: 'scrooloose/nerdtree', 'wincent/command-t', 'ctrlpvim/ctrlp.vim', 'Shougo/denite.nvim'
 Plug 'tpope/vim-fugitive' " vim-gitgutter
 Plug 'scrooloose/syntastic' " alt: 'w0rp/ale', https://github.com/neomake/neomake
 " YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
@@ -57,6 +54,15 @@ let g:netrw_banner = 0
 "   autocmd!
 "   autocmd VimEnter * :Vexplore
 " augroup END
+
+" add ripgrep search for fzf.vim
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 " carry ubuntu default everywhere
 colorscheme ron

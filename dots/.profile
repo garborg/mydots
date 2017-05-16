@@ -31,12 +31,23 @@ export EDITOR="$VISUAL"
 
 ### language-specific:
 
+# go
+export PATH=$PATH:/usr/local/go/bin
+gocd () { cd "$(go list -f '{{.Dir}}' "$1")"; } # gocd .../mypkg
+export -f gocd
+
 #javascript
 export NVM_DIR="/home/sean/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# go
-export PATH=$PATH:/usr/local/go/bin
-gocd () { cd `go list -f '{{.Dir}}' $1`; } # gocd .../mypkg
-export -f gocd
+# python (& devtools written in python)
+
+# used to set up and activate a default virtualenv for local development tools
+mkpydev () { python3 -m venv /usr/local/dev-env; }
+export -f mkpydev
+pydev () { . ~/.dev-env/bin/activate; }
+export -f pydev
+
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
 

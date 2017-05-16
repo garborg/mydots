@@ -13,7 +13,7 @@ if [ -d "./dots" ]; then
   for rel_path in dots/*; do
     # i have commented '._* junk in there right now
     if [[ $rel_path != "dots/._"* ]]; then
-      lp="$HOME/$(basename $rel_path)"
+      lp="$HOME/$(basename "$rel_path")"
       if [ -e "$lp" ]; then
         echo "'$lp' already exists."
       else
