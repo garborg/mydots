@@ -11,7 +11,8 @@ Plug 'tpope/vim-sensible'
 " many options for file/directory/buffer/etc nav:
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim' " alt: 'scrooloose/nerdtree', 'wincent/command-t', 'ctrlpvim/ctrlp.vim', 'Shougo/denite.nvim'
-Plug 'tpope/vim-fugitive' " vim-gitgutter
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/syntastic' " alt: 'w0rp/ale', https://github.com/neomake/neomake
 " YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
 Plug 'sbdchd/neoformat' "alt: Chiel92/vim-autoformat, vim-codefmt
@@ -55,6 +56,8 @@ let g:netrw_banner = 0
 "   autocmd VimEnter * :Vexplore
 " augroup END
 
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
 " add ripgrep search for fzf.vim
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
@@ -84,6 +87,9 @@ runtime macros/matchit.vim
 
 " toggle paste mode (including w/in insert mode)
 set pastetoggle=<F10>
+
+" used by gitgutter
+set updatetime=400
 
 " Language-specific again:
 
