@@ -12,9 +12,10 @@
 	d = diff
 	dc = diff --cached
 	ds = diff --stat -r
+	f = fetch -tp
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	lgv = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%n%b' --abbrev-commit --date=relative
-	pullom = !git fetch origin && git merge --ff-only origin/master
+	m = merge --ff-only
 	pr = "!f() { git fetch origin refs/pull/$1/head:$2; git checkout $2; }; f" # pass args [PR #] & [new branch name], and it fetches, creates, checks out
 	s = status
 	unstage = reset HEAD --
