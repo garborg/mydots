@@ -75,6 +75,8 @@ set list
 set showbreak=↪\
 " sensible sets alright listchars if you need ascii
 set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
+"but make it easy to toggle off/on
+nnoremap <leader>l :set list!<cr>:set list?<cr>
 
 " display tabs 4 wide
 set tabstop=4
