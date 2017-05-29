@@ -75,6 +75,8 @@ set list
 set showbreak=↪\
 " sensible sets alright listchars if you need ascii
 set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
+" turn off tab highlighting where tab is expected
+autocmd FileType go setlocal listchars=tab:\ \ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
 "but make it easy to toggle off/on
 nnoremap <leader>l :set list!<cr>:set list?<cr>
 
