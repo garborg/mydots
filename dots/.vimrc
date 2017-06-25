@@ -71,7 +71,7 @@ command! -bang -nargs=* Rg
 colorscheme ron
 
 "hook up copy/paste to system clipboard
-set clipboard=unnamed
+set clipboard^=unnamed,unnamedplus
 
 " call out whitespace
 set list
