@@ -16,7 +16,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/syntastic' " alt: 'w0rp/ale', https://github.com/neomake/neomake
 " YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
 Plug 'sbdchd/neoformat' "alt: Chiel92/vim-autoformat, vim-codefmt
-Plug 'surround.vim'
+Plug 'tpope/vim-surround'
 Plug 'editorconfig/editorconfig-vim'
 
 " vim8: http://www.vim.org/download.php
@@ -69,6 +69,9 @@ command! -bang -nargs=* Rg
 
 " carry ubuntu default everywhere
 colorscheme ron
+
+"hook up copy/paste to system clipboard
+set clipboard=unnamed
 
 " call out whitespace
 set list
