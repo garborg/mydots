@@ -32,6 +32,7 @@ export EDITOR="$VISUAL"
 ### language-specific:
 
 # go
+export GOPATH=$HOME
 export PATH=$PATH:/usr/local/go/bin
 gocd () { cd "$(go list -f '{{.Dir}}' "$1")"; } # gocd .../mypkg
 export -f gocd
