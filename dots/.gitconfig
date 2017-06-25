@@ -25,3 +25,5 @@
 	helper = cache --timeout 3600 # = osxkeychain on osx
 [core]
 	excludesfile = ~/.gitignore_global
+[merge]
+	tool = vimdiff
