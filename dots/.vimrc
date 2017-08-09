@@ -17,6 +17,7 @@ Plug 'scrooloose/syntastic' " alt: 'w0rp/ale', https://github.com/neomake/neomak
 " YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
 Plug 'sbdchd/neoformat' "alt: Chiel92/vim-autoformat, vim-codefmt
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'editorconfig/editorconfig-vim'
 
 " vim8: http://www.vim.org/download.php
