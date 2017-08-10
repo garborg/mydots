@@ -13,7 +13,11 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim' " alt: 'scrooloose/nerdtree', 'wincent/command-t', 'ctrlpvim/ctrlp.vim', 'Shougo/denite.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/syntastic' " alt: 'w0rp/ale', https://github.com/neomake/neomake
+if v:version < 800
+  Plug 'scrooloose/syntastic'
+else
+  Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake
+endif
 " YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
 Plug 'sbdchd/neoformat' "alt: Chiel92/vim-autoformat, vim-codefmt
 Plug 'tpope/vim-surround'
@@ -33,14 +37,16 @@ call plug#end()
 " ensure that editorconfig works well with fugituve
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-" syntastic recommended beginner settings
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
+if v:version < 800
+  " syntastic recommended beginner settings
+  "set statusline+=%#warningmsg#
+  "set statusline+=%{SyntasticStatuslineFlag()}
+  "set statusline+=%*
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  "let g:syntastic_check_on_open = 1
+  "let g:syntastic_check_on_wq = 0
+endif
 
 " 'you may not need nerdtree':
 "  https://shapeshed.com/vim-netrw/#netrw-the-unloved-directory-browser
