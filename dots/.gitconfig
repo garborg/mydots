@@ -27,3 +27,4 @@
 	excludesfile = ~/.gitignore_global
 [merge]
 	tool = vimdiff
+	defaultToUpstream = true # use git 2.x behavior even on 1.x
