@@ -20,6 +20,7 @@ else
 endif
 " YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
 Plug 'sbdchd/neoformat' "alt: Chiel92/vim-autoformat, vim-codefmt
+Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'editorconfig/editorconfig-vim'
@@ -93,7 +94,27 @@ nnoremap <leader>l :set list!<cr>:set list?<cr>
 " display tabs 4 wide
 set tabstop=4
 
-"set hlsearch
+" incsearch.vim basic settings
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+" :h g:incsearch#auto_nohlsearch
+set hlsearch
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)#auto_nohlsearch = 1
+
+" many more incsearch.vim options
+"https://github.com/haya14busa/incsearch.vim
+
+" built-in search settings
+"set incsearch " highlight first match while typing
+"set hlsearch " highlight all matches on enter
 
 " enable open/close movement beyond parens. e.g. html, if/else, do/end
 runtime macros/matchit.vim
