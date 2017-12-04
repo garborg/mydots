@@ -1,3 +1,8 @@
+# Bash-specific stuff goes here instead of .bash_profile to use bash
+# functionality when bash emulates sh, etc.
+
+export order="$order .profile"
+
 ## says ubuntu:
 
 # ~/.profile: executed by the command interpreter for login shells.
@@ -10,9 +15,10 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# if running bash
+# .bash_profile comes here, and we got to .bashrc if in .bash
+# (get bash-y goodness
+# Terminal ru
 if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
         . "$HOME/.bashrc"
     fi
@@ -24,31 +30,11 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 
-### my general additions:
-
-export VISUAL=vim
-export EDITOR="$VISUAL"
-
 ### language-specific:
 
 # go
-export GOPATH=$HOME
-export PATH=$PATH:/usr/local/go/bin
-gocd () { cd "$(go list -f '{{.Dir}}' "$1")"; } # gocd .../mypkg
-export -f gocd
-
-#javascript
-export NVM_DIR="/home/sean/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# python (& devtools written in python)
-
-# used to set up and activate a default virtualenv for local development tools
-mkpydev () { python3 -m venv /usr/local/dev-env; }
-export -f mkpydev
-pydev () { . ~/.dev-env/bin/activate; }
-export -f pydev
+PATH=$PATH:/usr/local/go/bin
 
 # rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
+# info suggested: PATH="$HOME/.cargo/bin:$PATH"
+PATH="$PATH:$HOME/.cargo/bin"

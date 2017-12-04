@@ -1,5 +1,9 @@
 # https://github.com/github/gitignore
 
+## Darwin
+
+.DS_Store
+
 ## Linux
 
 *~

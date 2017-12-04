@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-. allsetup.bash
+. basicsetup.bash
 
 dconf write /org/gnome/desktop/input-sources/xkb-options "['ctrl:nocaps']"
 

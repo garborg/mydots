@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-. linkdots.bash
+. linkdots.sh
 
 # Get vim up and running
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
