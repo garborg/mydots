@@ -2,6 +2,10 @@
 
 export order="$order .bashrc"
 
+if [ -n "$BASH_VERSION" ] && [ -f "/etc/bashrc" ]; then
+	. "etc/bashrc"
+fi
+
 ### my general additions:
 
 export VISUAL=vim
@@ -72,21 +76,6 @@ if [ -z "$(which git)" ]; then
 else
 	export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \`parse_git_branch\`\n\\$ "
 fi
-
-### other general
-
-# TODO: remove need for this
-# keeps pwd displayed correctly on osx Terminal app tabs,
-# e.g. after su
-update_terminal_cwd() {
-    # Identify the directory using a "file:" scheme URL,
-    # including the host name to disambiguate local vs.
-    # remote connections. Percent-escape spaces.
-    local SEARCH=' '
-    local REPLACE='%20'
-    local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
-    printf '\e]7;%s\a' "$PWD_URL"
-}
 
 ### language-specific:
 
