@@ -2,8 +2,20 @@
 
 export order="$order .bashrc"
 
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# Some systems' PROMPT_COMMANDs, etc., rely on /etc/bashrc
 if [ -n "$BASH_VERSION" ] && [ -f "/etc/bashrc" ]; then
 	. "etc/bashrc"
+fi
+
+# Keep ubuntu's default .bashrc as a base
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/bashrc.ubuntu" ]; then
+	. "$HOME/bashrc.ubuntu"
 fi
 
 ### my general additions:
@@ -69,13 +81,14 @@ function parse_git_dirty {
 }
 [ -n "$BASH_VERSION" ] && export -f parse_git_dirty
 
-# TODO: alternative to not exporting PS1 or 'not found' errors. e.g.:
-# export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
-if [ -z "$(which git)" ]; then
-	export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
-else
-	export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \`parse_git_branch\`\n\\$ "
-fi
+# # export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
+# if [ -z "$(which git)" ]; then
+# 	export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
+# else
+# 	export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \`parse_git_branch\`\n\\$ "
+# 	export PS1="\[\e[31m\]${nonzero_return:+(nonzero_return)}\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \`parse_git_branch\`\n\\$ "
+# 	# ubuntu def.: "\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+# fi
 
 ### language-specific:
 
