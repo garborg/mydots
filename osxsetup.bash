@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-. basicsetup.sh
+. basicsetup.bash
 
 git config credential.helper osxkeychain
