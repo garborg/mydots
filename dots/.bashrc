@@ -10,12 +10,12 @@ esac
 
 # Some systems' PROMPT_COMMANDs, etc., rely on /etc/bashrc
 if [ -n "$BASH_VERSION" ] && [ -f "/etc/bashrc" ]; then
-	. "etc/bashrc"
+	. "/etc/bashrc"
 fi
 
 # Keep ubuntu's default .bashrc as a base
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/bashrc.ubuntu" ]; then
-	. "$HOME/bashrc.ubuntu"
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc.ubuntu" ]; then
+	. "$HOME/.bashrc.ubuntu"
 fi
 
 # Keep ubuntu's default .bashrc as a base
