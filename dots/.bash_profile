@@ -6,7 +6,7 @@ export order="$order .bash_profile"
 # Hit .bashrc via .profile when in bash,
 # but degrade gracefully if .profile isn't found.
 if [ -f "$HOME/.profile" ]; then
-	. "$HOME/.profile"
+  . "$HOME/.profile"
 elif [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+  . "$HOME/.bashrc"
 fi

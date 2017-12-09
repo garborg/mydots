@@ -9,7 +9,7 @@
 # /usr/bin/setxkbmap -option ctrl:nocaps
 # now: install dconf-editor and http://askubuntu.com/a/365701
 # or: `dconf write /org/gnome/desktop/input-sources/xkb-options "['ctrl:nocaps']"`
-#  
+#
 # remaining alternative:
 #   systemd, per-user
 #   xmodmap: https://askubuntu.com/questions/363346/how-to-permanently-switch-caps-lock-and-esc
@@ -22,4 +22,3 @@
 # /usr/bin/xcape -e 'Caps_Lock=Escape;Control_L=Escape' -t 100
 # /usr/bin/xcape -e 'Control_L=Escape' -t 100
 /usr/bin/xcape -e 'Caps_Lock=Escape;Control_L=Escape' -t 100
-

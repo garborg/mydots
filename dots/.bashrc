@@ -4,23 +4,23 @@ export order="$order .bashrc"
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+    *) return;;
 esac
 
 # Some systems' PROMPT_COMMANDs, etc., rely on /etc/bashrc
 if [ -n "$BASH_VERSION" ] && [ -f "/etc/bashrc" ]; then
-	. "/etc/bashrc"
+  . "/etc/bashrc"
 fi
 
 # Keep ubuntu's default .bashrc as a base
 if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc.ubuntu" ]; then
-	. "$HOME/.bashrc.ubuntu"
+  . "$HOME/.bashrc.ubuntu"
 fi
 
 # Keep ubuntu's default .bashrc as a base
 if [ -n "$BASH_VERSION" ] && [ -f "$HOME/git-prompt.sh" ]; then
-	. "$HOME/git-prompt.sh"
+  . "$HOME/git-prompt.sh"
 fi
 
 ### my general additions:
@@ -28,15 +28,27 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
+if command -v nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi
+if command -v vim > /dev/null 2>&1; then
+  # make vi point at local vim if installed
+  alias vi='vim'
+fi
+
 ### build ps1:
 
 # # export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
 # fi
 
 # Start with just the git bit
+# shellcheck disable=SC2034
 GIT_PS1_SHOWDIRTYSTATE=1 # unstaged: *, staged: +
+# shellcheck disable=SC2034
 GIT_PS1_SHOWSTASHSTATE=1 # $
+# shellcheck disable=SC2034
 GIT_PS1_SHOWUNTRACKEDFILES=1 # %
+# shellcheck disable=SC2034
 GIT_PS1_SHOWUPSTREAM="verbose" # "auto"
 #in prompt_command only: GIT_PS1_SHOWCOLORHINTS=1
 export PS1='$(__git_ps1 "(%s)")'
