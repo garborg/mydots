@@ -36,6 +36,12 @@ if command -v vim > /dev/null 2>&1; then
   alias vi='vim'
 fi
 
+# color osx/bsd ls like ubuntu/gnu ls
+export CLICOLOR=1
+
+# color osx/bsd grep like ubuntu/gnu grep
+export GREP_OPTIONS='color=auto'
+
 ### build ps1:
 
 # # export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
