@@ -6,60 +6,57 @@
 #   if exists
 #     echo warning
 #   else
-#     link
+#     link to home
 
-linkIf() {
-  tp="$1"
-  lp="$2"
-  if [ -e "$lp" ]; then
-    if [ -L "$lp" ]; then
-      echo "Link exists:"
-      ls -o "$lp"
+linkPath() {
+  local tpath="$1"
+  local lpath="$2"
+
+  if [ -e "$lpath" ]; then
+    if [ -L "$lpath" ]; then
+      echo "Exists:"
+      ls -o "$lpath"
       return 0
     fi
-    mv "$lp" "${lp}.orig"
-    echo "Moved:"
-    ls -o "${lp}.orig"
+    mv "$lpath" "${lpath}.orig"
+    echo ">>>> Moved:"
+    ls -o "${lpath}.orig"
   fi
-  echo "Linked:"
-  ln -s "$tp" "$lp"
-  ls -o "$lp"
+  echo "++++ Linked:"
+  ln -s "$tpath" "$lpath"
+  ls -o "$lpath"
+}
+
+linkDir() {
+  local tdir="$1"
+  local ldir="$2"
+
+  for tpath in $tdir/{.,}*; do
+    local tbn="$(basename "$tpath")"
+    local lpath="$ldir/$tbn"
+    if [ "$tbn" = "." ] || [ "$tbn" = ".." ] || [ "$tbn" = "*" ]; then
+      continue
+    fi
+    if [ -d "$tpath" ]; then
+      # TODO: iff under $HOME
+      if [ "$tbn" = ".config" ] && [ -n "$XDG_CONFIG_HOME" ]; then
+        echo "Installing config under \$XDG_CONFIG_HOME: '$XDG_CONFIG_HOME'"
+        local lpath="$XDG_CONFIG_HOME"
+      fi
+
+      mkdir -p "$lpath"
+      linkDir "$tpath" "$lpath"
+    elif [ -f "$tpath" ]; then
+      [ "$tbn" = ".DS_Store" ] && continue
+      linkPath "$tpath" "$lpath"
+    else
+      echo "---- Ignoring '$tpath'"
+    fi
+  done
 }
 
 if [ -d "./dots" ]; then
-  mydir=$(pwd)
-  shopt -s dotglob # * match .fn, but not . or ..
-  for rel_path in dots/*; do
-    # i have commented '._* junk in there right now
-    if [[ $rel_path != "dots/._"* ]] && [[ "$rel_path" != "dots/.DS_Store" ]]; then
-      lp="$HOME/$(basename "$rel_path")"
-      tp="$mydir/$rel_path"
-      linkIf "$tp" "$lp"
-
-      # Special cases
-
-      # # link to .profile to ~/.bash_profile as well.
-      # #   don't lose .profile when osx or a tool creates .bash_profile unasked
-      # #   one less file check for bash on unix
-      # if [ "$rel_path" = "dots/.profile" ]; then
-      #   lp="$HOME/.bash_profile"
-      #   if [ -e "$lp" ]; then
-      #     echo "'$lp' already exists."
-      #   else
-      #     echo "linking '$lp' to '$mydir/$rel_path'"
-      #     ln -s "$mydir/$rel_path" "$lp"
-      #   fi
-
-      # make vimrc available to neovim
-      if [ "$rel_path" = "dots/.vimrc" ]; then
-        nvdir="$HOME/.config/nvim"
-        lp="$nvdir/init.vim"
-        mkdir -p "$nvdir"
-        linkIf "$tp" "$lp"
-      fi
-    fi
-  done
+  linkDir "$(pwd)/dots" "$HOME"
 else
-  echo "Couldn't find 'dots' dir in '$mydir'."
+  echo "Couldn't find 'dots' dir in '$(pwd)'."
 fi
-
