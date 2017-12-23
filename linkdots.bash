@@ -14,6 +14,7 @@ linkPath() {
 
   if [ -e "$lpath" ]; then
     if [ -L "$lpath" ]; then
+      # TODO: check link
       echo "Exists:"
       ls -o "$lpath"
       return 0
@@ -32,7 +33,8 @@ linkDir() {
   local ldir="$2"
 
   for tpath in $tdir/{.,}*; do
-    local tbn="$(basename "$tpath")"
+    local tbn
+    tbn="$(basename "$tpath")"
     local lpath="$ldir/$tbn"
     if [ "$tbn" = "." ] || [ "$tbn" = ".." ] || [ "$tbn" = "*" ]; then
       continue
