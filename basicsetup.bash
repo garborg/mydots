@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 . linkdots.bash
 
 # Get vim up and running

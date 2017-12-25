@@ -1,30 +1,46 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Description:
 # for dotfile in dots dir
 #   check if exists in home
 #   if exists
-#     echo warning
+#     if different
+#       if symlink
+#         warn & skip to next dotfile
+#       else
+#         move original and link to home
 #   else
 #     link to home
 
+# symlink, move orig file out of way, but err if mismatching link is found
 linkPath() {
   local tpath="$1"
   local lpath="$2"
 
-  if [ -e "$lpath" ]; then
+  if [ -e "$lpath" ] || [ -L "$lpath" ]; then
     if [ -L "$lpath" ]; then
-      # TODO: check link
-      echo "Exists:"
-      ls -o "$lpath"
-      return 0
+      local ltarget
+      # TODO: ensure works on osx (inluding w/ broken links)
+      ltarget="$(readlink "$lpath")"
+      if [ "$ltarget" = "$tpath" ]; then
+        echo "==== Unchanged:"
+        ls -o "${lpath}"
+        return 0
+      else
+        echo "!!!! Link mismatch:"
+        ls -o "${lpath}"
+        return 1
+      fi
+    else
+      mv "$lpath" "$lpath.orig"
+      echo ">>>> Original moved:"
+      ls -o "${lpath}.orig"
     fi
-    mv "$lpath" "${lpath}.orig"
-    echo ">>>> Moved:"
-    ls -o "${lpath}.orig"
   fi
-  echo "++++ Linked:"
   ln -s "$tpath" "$lpath"
+  echo "++++ Linked:"
   ls -o "$lpath"
 }
 
@@ -57,8 +73,20 @@ linkDir() {
   done
 }
 
+# Get tmux up and running
+
+vendir="$(pwd)/vendor"
+if ! [ -e "$vendir/.tmux" ]; then
+  git clone https://github.com/gpakosz/.tmux.git "$vendir/.tmux"
+fi
+linkPath "$vendir/.tmux/.tmux.conf" "$HOME/.tmux.conf"
+linkPath "$vendir/.tmux/.tmux.conf.local" "$HOME/.tmux.conf.local"
+
+# Now everything else
+
 if [ -d "./dots" ]; then
   linkDir "$(pwd)/dots" "$HOME"
 else
   echo "Couldn't find 'dots' dir in '$(pwd)'."
+  exit 1
 fi
