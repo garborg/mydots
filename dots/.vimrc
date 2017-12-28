@@ -79,6 +79,7 @@ command! -bang -nargs=* Rg
 colorscheme ron
 
 "hook up copy/paste to system clipboard
+" TODO: avoid clipboard clear when vim is stopped
 set clipboard^=unnamed,unnamedplus
 
 " call out whitespace

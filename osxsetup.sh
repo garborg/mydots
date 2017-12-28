@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 set -e
 
-. basicsetup.bash
+. basicsetup.sh
 
 git config credential.helper osxkeychain

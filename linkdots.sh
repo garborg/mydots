@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 set -e
 
@@ -48,7 +48,10 @@ linkDir() {
   local tdir="$1"
   local ldir="$2"
 
-  for tpath in $tdir/{.,}*; do
+  for tpath in $tdir/* $tdir/.[^.]*; do
+    # globs are returned when they match nothing
+    [ -e "$tpath" ] || continue
+
     local tbn
     tbn="$(basename "$tpath")"
     local lpath="$ldir/$tbn"
