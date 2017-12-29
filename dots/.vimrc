@@ -78,6 +78,10 @@ command! -bang -nargs=* Rg
 " carry ubuntu default everywhere
 colorscheme ron
 
+" make current search result differentiable from rest
+" (when using incsearch + hlsearch)
+hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
+
 "hook up copy/paste to system clipboard
 " TODO: avoid clipboard clear when vim is stopped
 set clipboard^=unnamed,unnamedplus
@@ -112,14 +116,6 @@ map g# <Plug>(incsearch-nohl-g#)#auto_nohlsearch = 1
 
 " many more incsearch.vim options
 "https://github.com/haya14busa/incsearch.vim
-
-" built-in search settings
-"set incsearch " highlight first match while typing
-"set hlsearch " highlight all matches on enter
-
-" enable open/close movement beyond parens. e.g. html, if/else, do/end
-runtime macros/matchit.vim
-" TODO: looks like sensible does this (but w/ 'runtime!')
 
 " toggle paste mode (including w/in insert mode)
 set pastetoggle=<F10>
