@@ -40,7 +40,14 @@ fi
 export CLICOLOR=1
 
 # color osx/bsd grep like ubuntu/gnu grep
-export GREP_OPTIONS='color=auto'
+if command -v grep > /dev/null 2&>1 && grep --version | grep -q "BSD"; then
+  # deprecated in GNU grep 2.x
+  export GREP_OPTIONS="--color=auto"
+fi
+# Recommended alternative fails, e.g when piping via xargs:
+# alias grep="grep --color=auto"
+# alias fgrep="fgrep --color=auto"
+# alias egrep="egrep --color=auto"
 
 ### build ps1:
 
