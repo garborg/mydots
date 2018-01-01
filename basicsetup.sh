@@ -13,4 +13,4 @@ set -e
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install vim plugins specified in .vimrc
-vim -e -c ':PlugInstall' -c ':GoInstallBinaries' -c ':qa'
+vim +PlugInstall +GoInstallBinaries +qa
