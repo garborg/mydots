@@ -25,23 +25,22 @@ linkPath() {
       # TODO: ensure works on osx (inluding w/ broken links)
       ltarget="$(readlink "$lpath")"
       if [ "$ltarget" = "$tpath" ]; then
-        echo "==== Unchanged:"
-        ls -o "${lpath}"
+        echo "==== Unchanged: ${lpath}"
         return 0
       else
         echo "!!!! Link mismatch:"
-        ls -o "${lpath}"
+        ls -og "${lpath}"
         return 1
       fi
     else
       mv "$lpath" "$lpath.orig"
       echo ">>>> Original moved:"
-      ls -o "${lpath}.orig"
+      ls -og "${lpath}.orig"
     fi
   fi
   ln -s "$tpath" "$lpath"
   echo "++++ Linked:"
-  ls -o "$lpath"
+  ls -og "$lpath"
 }
 
 linkDir() {
@@ -75,17 +74,6 @@ linkDir() {
     fi
   done
 }
-
-# Get tmux up and running
-
-vendir="$(pwd)/vendor"
-if ! [ -e "$vendir/.tmux" ]; then
-  git clone https://github.com/gpakosz/.tmux.git "$vendir/.tmux"
-fi
-linkPath "$vendir/.tmux/.tmux.conf" "$HOME/.tmux.conf"
-linkPath "$vendir/.tmux/.tmux.conf.local" "$HOME/.tmux.conf.local"
-
-# Now everything else
 
 if [ -d "./dots" ]; then
   linkDir "$(pwd)/dots" "$HOME"

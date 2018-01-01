@@ -19,8 +19,12 @@ if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc.ubuntu" ]; then
 fi
 
 # Keep ubuntu's default .bashrc as a base
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/git-prompt.sh" ]; then
-  . "$HOME/git-prompt.sh"
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.config/git-prompt.sh" ]; then
+  . "$HOME/.config/git-prompt.sh"
+fi
+
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.fzf.bash" ]; then
+  . ~/.fzf.bash
 fi
 
 ### my general additions:

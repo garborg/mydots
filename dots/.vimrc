@@ -9,7 +9,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 " http://vim.spf13.com/
 " many options for file/directory/buffer/etc nav:
-Plug 'junegunn/fzf'
+Plug '~/.fzf' " I have fzf installed with my dotfiles
 Plug 'junegunn/fzf.vim' " alt: 'scrooloose/nerdtree', 'wincent/command-t', 'ctrlpvim/ctrlp.vim', 'Shougo/denite.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
