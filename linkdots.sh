@@ -64,8 +64,14 @@ linkDir() {
         local lpath="$XDG_CONFIG_HOME"
       fi
 
-      mkdir -p "$lpath"
-      linkDir "$tpath" "$lpath"
+      if [ -f "$tpath/._linkcontents" ]; then
+        # link contents of dir individually
+        mkdir -p "$lpath"
+        linkDir "$tpath" "$lpath"
+      else
+        # link dir as a whole
+        linkPath "$tpath" "$lpath"
+      fi
     elif [ -f "$tpath" ]; then
       [ "$tbn" = ".DS_Store" ] && continue
       linkPath "$tpath" "$lpath"
