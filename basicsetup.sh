@@ -2,7 +2,7 @@
 
 set -e
 
-. linkdots.sh
+. ./linkdots.sh
 
 # Install fzf. It's already sourced by .bashrc
 "$HOME/.fzf/install" --all --no-update-rc

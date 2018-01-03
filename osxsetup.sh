@@ -2,6 +2,6 @@
 
 set -e
 
-. basicsetup.sh
+. ./basicsetup.sh
 
 git config credential.helper osxkeychain
