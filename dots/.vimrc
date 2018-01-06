@@ -93,6 +93,13 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
+" To include ignored and hidden files:
+command! -bang -nargs=* Rgu
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always -uu '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 " carry ubuntu default everywhere
 colorscheme ron
 
