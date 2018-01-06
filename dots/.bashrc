@@ -44,7 +44,7 @@ fi
 export CLICOLOR=1
 
 # color osx/bsd grep like ubuntu/gnu grep
-if command -v grep > /dev/null 2&>1 && grep --version | grep -q "BSD"; then
+if command -v grep > /dev/null 2>&1 && grep --version | grep -q "BSD"; then
   # deprecated in GNU grep 2.x
   export GREP_OPTIONS="--color=auto"
 fi
