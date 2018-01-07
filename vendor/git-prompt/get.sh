@@ -7,5 +7,7 @@ if ! [ -d "$1" ]; then
   return 1
 fi
 
+. "$(dirname "$0")/../util.sh"
+
 url=https://github.com/git/git/raw/master/contrib/completion/git-prompt.sh
-curl -LsSo "$1/git-prompt.sh" $url
+fetch "$url" "$1"

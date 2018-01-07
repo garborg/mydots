@@ -7,5 +7,7 @@ if ! [ -d "$1" ]; then
   return 1
 fi
 
+. "$(dirname "$0")/../util.sh"
+
 url=https://github.com/gpakosz/.tmux/archive/master.tar.gz
-curl -LsS $url | tar xz -C "$1"
+fetch "$url" "$1"

@@ -22,17 +22,23 @@ review_latest() {
     echo "Can't find directory '$1/latest/'"
     return 1
   fi
-  # TODO: --brief?, --paginate?, more/less?
+  # Summary of diff, shouldn't err on binaries
   # shellcheck disable=2046
-  diff -Nr -x '.git' $(gig2excludes) "$1/reviewed/" "$1/latest/" && :
+  diff -rq -x '.git' $(gig2excludes) "$1/reviewed/" "$1/latest/" && :
   retVal=$?
-  if [ $retVal -gt 1 ]; then
+  if [ $retVal = 1 ]; then
+    echo ''
+    # Print out the diffs, should print everything before complaining about binaries
+    # TODO:--paginate?, more/less?
+    # shellcheck disable=2046
+    diff -rN -x '.git' $(gig2excludes) "$1/reviewed/" "$1/latest/" || true
+  elif [ $retVal -gt 1 ]; then
     return $retVal
   fi
 }
 
 check_all() {
-  if [ -f "$0" ]; then
+  if [ "$(basename "$0")" = "check_latest.sh" ]; then
     cd "$(dirname "$0")"
   else
     echo "Exec me. Don't source me."
