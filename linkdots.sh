@@ -25,17 +25,19 @@ linkPath() {
       # TODO: ensure works on osx (inluding w/ broken links)
       ltarget="$(readlink "$lpath")"
       if [ "$ltarget" = "$tpath" ]; then
-        echo "==== Unchanged: ${lpath}"
+        echo "==== Unchanged: $lpath"
         return 0
       else
         echo "!!!! Link mismatch:"
-        ls -og "${lpath}"
+        ls -og "$lpath"
+        echo "vs."
+        echo "-> $tpath"
         return 1
       fi
     else
       mv "$lpath" "$lpath.orig"
-      echo ">>>> Original moved:"
-      ls -og "${lpath}.orig"
+      echo ">>>> Original moved to:"
+      ls -ogd "${lpath}.orig"
     fi
   fi
   ln -s "$tpath" "$lpath"
