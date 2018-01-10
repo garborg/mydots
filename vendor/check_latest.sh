@@ -2,7 +2,7 @@
 
 set -e
 
-# hope there's nothing fancy in your main gitignore
+# hope there's nothing fancy in your global gitignore
 gig2excludes() {
   local cdir="$XDG_CONFIG_HOME"
   [ -z "$cdir" ] && cdir="$HOME/.config"
@@ -11,6 +11,21 @@ gig2excludes() {
     # shellcheck disable=SC2086
      grep '^[^#]' $gig | sed "s/.*/ -x &/" | tr -d '\n'
  fi
+}
+
+ask() {
+  while true; do
+    echo "$1 (y/n/q)"
+    local answer
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        return 1
+    elif echo "$answer" | grep -iq "^n" ;then
+        return 0
+    elif echo "$answer" | grep -iq "^q" ;then
+        exit 1
+    fi
+  done
 }
 
 review_latest() {
@@ -23,15 +38,24 @@ review_latest() {
     return 1
   fi
   # Summary of diff, shouldn't err on binaries
+  echo "### Change summary:"
   # shellcheck disable=2046
   diff -rq -x '.git' $(gig2excludes) "$1/reviewed/" "$1/latest/" && :
   retVal=$?
   if [ $retVal = 1 ]; then
-    echo ''
+    echo "### Diffs:"
     # Print out the diffs, should print everything before complaining about binaries
     # TODO:--paginate?, more/less?
     # shellcheck disable=2046
     diff -rN -x '.git' $(gig2excludes) "$1/reviewed/" "$1/latest/" || true
+    echo ''
+    ask "Do you want to vendor these changes?" && :
+    local vendor=$?
+    if [ $vendor = 1 ]; then
+      mv "$1/reviewed" "$1/oldreviewed"
+      mv "$1/latest" "$1/reviewed"
+      rm -rf "$1/oldreviewed"
+    fi
   elif [ $retVal -gt 1 ]; then
     return $retVal
   fi
@@ -54,9 +78,7 @@ check_all() {
     mkdir "$latest"
     "$vdir/get.sh" "$latest"
 
-    echo "### Changes to '$vdir':"
     review_latest "$vdir"
-    # TODO: ask user y(es) n(o) q(uit)
   done
 }
 
