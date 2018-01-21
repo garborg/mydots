@@ -4,9 +4,9 @@ set -e
 
 # hope there's nothing fancy in your global gitignore
 gig2excludes() {
-  local cdir="$XDG_CONFIG_HOME"
-  [ -z "$cdir" ] && cdir="$HOME/.config"
-  local gig="$cdir/git/ignore"
+  local config_dir="$XDG_CONFIG_HOME"
+  [ -z "$config_dir" ] && config_dir="$HOME/.config"
+  local gig="$config_dir/git/ignore"
   if [ -f "$gig" ]; then
     # shellcheck disable=SC2086
      grep '^[^#]' $gig | sed "s/.*/ -x &/" | tr -d '\n'

@@ -77,8 +77,11 @@ fi
 
 # set PS1
 if [ -n "$BASH_VERSION" ]; then
-  if [ -f "$HOME/.config/git-prompt.sh" ]; then
-    . "$HOME/.config/git-prompt.sh"
+  config_dir="$XDG_CONFIG_HOME"
+  [ -z "$config_dir" ] && config_dir="$HOME/.config"
+
+  if [ -f "$config_dir/git-prompt.sh" ]; then
+    . "$config_dir/git-prompt.sh"
 
     # Build the git section of the ps1
     # shellcheck disable=SC2034
