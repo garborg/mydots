@@ -2,6 +2,28 @@
 
 export order="$order .bashrc"
 
+is_interactive=false
+case "$-" in
+   *i*) is_interactive=true ;;
+esac
+
+if [ -n "$BASH_VERSION" ]; then
+  is_login=false
+  if shopt -q login_shell; then
+    is_login=true
+  fi
+fi
+
+is_ssh=false
+if [ -n "$SSH_CLIENT" ]  || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
+  is_ssh=true
+fi
+
+export order="$order. $- $BASH_VERSION (i:$is_interactive, l: $is_login, ssh: $is_ssh)"
+
+# Make sure non-bash non-login shells get non-bash config
+export ENV="$HOME/.bashrc"
+
 # If not running interactively, don't do anything
 case $- in
   *i*) ;;
@@ -16,11 +38,6 @@ fi
 # Keep ubuntu's default .bashrc as a base
 if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc.ubuntu" ]; then
   . "$HOME/.bashrc.ubuntu"
-fi
-
-# Keep ubuntu's default .bashrc as a base
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.config/git-prompt.sh" ]; then
-  . "$HOME/.config/git-prompt.sh"
 fi
 
 if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.fzf.bash" ]; then
@@ -58,25 +75,38 @@ fi
 # # export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
 # fi
 
-# Start with just the git bit
-# shellcheck disable=SC2034
-GIT_PS1_SHOWDIRTYSTATE=1 # unstaged: *, staged: +
-# shellcheck disable=SC2034
-GIT_PS1_SHOWSTASHSTATE=1 # $
-# shellcheck disable=SC2034
-GIT_PS1_SHOWUNTRACKEDFILES=1 # %
-# shellcheck disable=SC2034
-GIT_PS1_SHOWUPSTREAM="verbose" # "auto"
-#in prompt_command only: GIT_PS1_SHOWCOLORHINTS=1
-export PS1='$(__git_ps1 "(%s)")'
-# Drop the git bit into the main PS1
-# export PS1="[\u@\h:\[\e[34m\]\w\[\e[m\]$PS1]\n\\$ "
-export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$PS1\n\\$ "
-# Prepend with background job count
-export PS1='`if [ -n "$(jobs -p)" ]; then echo "[\j+]"; fi`'"$PS1"
-# Prepend with success status of previous command
-# export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]$PS1"
-export PS1="\[\e[31m\]"'`RETVAL=$?; [ $RETVAL -ne 0 ] && echo "^^($RETVAL)"`'"\[\e[m\]$PS1"
+# set PS1
+if [ -n "$BASH_VERSION" ]; then
+  if [ -f "$HOME/.config/git-prompt.sh" ]; then
+    . "$HOME/.config/git-prompt.sh"
+
+    # Build the git section of the ps1
+    # shellcheck disable=SC2034
+    GIT_PS1_SHOWDIRTYSTATE=1 # unstaged: *, staged: +
+    # shellcheck disable=SC2034
+    GIT_PS1_SHOWSTASHSTATE=1 # $
+    # shellcheck disable=SC2034
+    GIT_PS1_SHOWUNTRACKEDFILES=1 # %
+    # shellcheck disable=SC2034
+    GIT_PS1_SHOWUPSTREAM="verbose" # "auto"
+    #in prompt_command only: GIT_PS1_SHOWCOLORHINTS=1
+    PS1='$(__git_ps1 "(%s)")'
+  else
+    PS1='(?)'
+  fi
+
+  # Drop the git component into the main PS1
+  # export PS1="[\u@\h:\[\e[34m\]\w\[\e[m\]$PS1]\n\\$ "
+  PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$PS1\n\\$ "
+  # Prepend with background job count
+  PS1='`if [ -n "$(jobs -p)" ]; then echo "[\j+]"; fi`'"$PS1"
+  # Prepend with success status of previous command
+  # export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]$PS1"
+  export PS1="\[\e[31m\]"'`RETVAL=$?; [ $RETVAL -ne 0 ] && echo "^^($RETVAL)"`'"\[\e[m\]$PS1"
+else
+  HOSTNAME="$(hostname)"
+  export PS1='$USER@$HOSTNAME:$PWD/\$ '
+fi
 
 ### language-specific:
 
