@@ -10,7 +10,9 @@ Plug 'tpope/vim-sensible'
 " http://vim.spf13.com/
 " many options for file/directory/buffer/etc nav:
 Plug '~/.fzf' " I have fzf installed with my dotfiles
-Plug 'junegunn/fzf.vim' " alt: 'scrooloose/nerdtree', 'wincent/command-t', 'ctrlpvim/ctrlp.vim', 'Shougo/denite.nvim'
+Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
+" automatic tag generation/update
+Plug 'ludovicchabant/vim-gutentags' " alt: 'https://github.com/craigemery/vim-autotag' 'https://github.com/LucHermitte/lh-tags' 'https://github.com/xolox/vim-easytags'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 if v:version < 800
