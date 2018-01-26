@@ -2,6 +2,11 @@
 
 set -e
 
+force=false
+if [ "$1" = "-f" ]; then
+  force=true
+fi
+
 # Description:
 # for dotfile in dots dir
 #   check if exists in home
@@ -27,11 +32,15 @@ linkPath() {
       if [ "$ltarget" = "$tpath" ]; then
         echo "==== Unchanged: $lpath"
         return 0
+      elif $force; then
+        echo "---- Original removed:"
+        ls -ogd "${lpath}"
+        rm "${lpath}"
       else
         echo "!!!! Link mismatch:"
         ls -og "$lpath"
         echo "vs."
-        echo "-> $tpath"
+        echo "=> $tpath"
         return 1
       fi
     else
@@ -49,6 +58,7 @@ linkDir() {
   local tdir="$1"
   local ldir="$2"
 
+  local errs=0
   for tpath in $tdir/* $tdir/.[^.]*; do
     # globs are returned when they match nothing
     [ -e "$tpath" ] || continue
@@ -72,15 +82,17 @@ linkDir() {
         linkDir "$tpath" "$lpath"
       else
         # link dir as a whole
-        linkPath "$tpath" "$lpath"
+        linkPath "$tpath" "$lpath" || errs=1
       fi
     elif [ -f "$tpath" ]; then
       [ "$tbn" = ".DS_Store" ] && continue
-      linkPath "$tpath" "$lpath"
+      linkPath "$tpath" "$lpath" || errs=1
     else
       echo "---- Ignoring '$tpath'"
     fi
   done
+
+  return $errs
 }
 
 if [ -d "./dots" ]; then
