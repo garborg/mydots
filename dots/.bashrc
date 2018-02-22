@@ -129,3 +129,4 @@ mkpydev () { python3 -m venv /usr/local/dev-env; }
 [ -n "$BASH_VERSION" ] && export -f mkpydev
 pydev () { . ~/.dev-env/bin/activate; }
 [ -n "$BASH_VERSION" ] && export -f pydev
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
