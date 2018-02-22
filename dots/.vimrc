@@ -3,34 +3,64 @@
 " make sure .vimrc is in place
 " then reload .vimrc and call ``:PlugInstall`
 
-" really need to remap ~ someday
-
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugged') " alt dein.vim
 Plug 'tpope/vim-sensible'
 " http://vim.spf13.com/
+"
 " many options for file/directory/buffer/etc nav:
 Plug '~/.fzf' " I have fzf installed with my dotfiles
 Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
+
 " automatic tag generation/update
-Plug 'ludovicchabant/vim-gutentags' " alt: 'https://github.com/craigemery/vim-autotag' 'https://github.com/LucHermitte/lh-tags' 'https://github.com/xolox/vim-easytags'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
+
+" language server protocol
+" language server: https://pinboard.in/u:garborg/tabs/283303/
+if has("job")
+  Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
+endif
+
+" completion: https://pinboard.in/u:garborg/tabs/283297/
+" YouCompleteMe, deoplete.nvim, nvim-completion-manager, completor.vim
+" Plug 'roxma/nvim-completion-manager'
+" nvim-completion-manager, deoplete require python3
+" YouCompleteMe, completor require python2 or python3
+
+" More terminal:
+" https://medium.com/@SpaceVim/tips-about-the-terminal-of-vim-and-neovim-6a2dfa67ce5e
+" if has("nvim")
+"   Plug 'BurningEther/iron.nvim', {'do': ':UpdateRemotePlugins'}
+" endif
+
 if v:version < 800
   Plug 'scrooloose/syntastic'
 else
-  Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake
+  Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake, maralla/validator.vim
 endif
-" YouCompleteMe, deoplete.nvim, neocomplete.nvim, completor.vim, validator.vim
-Plug 'sbdchd/neoformat' "alt: Chiel92/vim-autoformat, vim-codefmt
+" https://prettier.io/docs/en/vim.html
+Plug 'sbdchd/neoformat' "alt: worp/ale, Chiel92/vim-autoformat, vim-codefmt
+
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
 Plug 'editorconfig/editorconfig-vim'
 
-" vim8: http://www.vim.org/download.php
+" https://github.com/machakann/vim-highlightedyank
+" OR
+" https://github.com/haya14busa/vim-operator-flashy
+
+" https://github.com/easymotion/vim-easymotion
+" https://github.com/languitar/config-vim/blob/master/home/.config/nvim/init.vim
+" http://liuchengxu.org/posts/use-vim-as-a-python-ide/
 " http://ellengummesson.com/blog/2015/08/01/dropping-ctrlp-and-other-vim-plugins/
 " https://github.com/tpope/vim-dispatch
-" http://vimawesome.com/
 
 "Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -40,7 +70,28 @@ call plug#end()
 " ensure that editorconfig works well with fugituve
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
+if has("job")
+  " LanguageClient
+  let g:LanguageClient_autoStart = 1
+  let g:LanguageClient_serverCommands = {
+  \   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
+  \       using LanguageServer;
+  \       server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false);
+  \       server.runlinter = true;
+  \       run(server);
+  \   '],
+  \   'go': ['go-langserver'],
+  \   'javascript': ['javascript-typescript-stdio'],
+  \   'javascript.jsx': ['javascript-typescript-stdio'],
+  \ }
+
+  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+endif
+
 if v:version < 800
+  " syntastic
   " syntastic recommended beginner settings
   "set statusline+=%#warningmsg#
   "set statusline+=%{SyntasticStatuslineFlag()}
@@ -155,7 +206,7 @@ set updatetime=400
 "let g:neoformat_enabled_javascript = ['prettier']
 
 " let g:julia_blocks=0 " maybe turn of julia-vim's matchit mappings
-" let g:default_julia_version = "devel"
+let g:default_julia_version = "0.6"
 
 " Use goimports on save (.go files)
 let g:go_fmt_command = "goimports"
