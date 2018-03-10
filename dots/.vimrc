@@ -1,20 +1,22 @@
-" TO INSTALL PLUG:
+" n.b. 'alt: ' denotes viable alternatives
+" (at the time the chosen plugin was added or re-evaluated)
+
+" Plugin manager: plug.vim " alt: dein.vim
+"
+" TO INSTALL PLUGIN MANAGER:
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " make sure .vimrc is in place
 " then reload .vimrc and call ``:PlugInstall`
 
-call plug#begin('~/.vim/plugged') " alt dein.vim
+call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
-" http://vim.spf13.com/
-"
-" many options for file/directory/buffer/etc nav:
+
+" navigation outside of active file
 Plug '~/.fzf' " I have fzf installed with my dotfiles
 Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
 
-" automatic tag generation/update
-Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
-
 " language server protocol
+" (support for renames, go to definition, etc.)
 " language server: https://pinboard.in/u:garborg/tabs/283303/
 if has("job")
   Plug 'autozimu/LanguageClient-neovim', {
@@ -23,7 +25,12 @@ if has("job")
   \ }
 endif
 
-" completion: https://pinboard.in/u:garborg/tabs/283297/
+" automatic tag generation/update
+" (useful for languages/environments missing languageservers)
+Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
+
+" completion
+" https://pinboard.in/u:garborg/tabs/283297/
 " YouCompleteMe, deoplete.nvim, nvim-completion-manager, completor.vim
 " Plug 'roxma/nvim-completion-manager'
 " nvim-completion-manager, deoplete require python3
@@ -35,11 +42,15 @@ endif
 "   Plug 'BurningEther/iron.nvim', {'do': ':UpdateRemotePlugins'}
 " endif
 
+" linter
 if v:version < 800
   Plug 'scrooloose/syntastic'
 else
+  " ale is async and has capabilities beyond linting
   Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake, maralla/validator.vim
 endif
+
+" code formatter
 " https://prettier.io/docs/en/vim.html
 Plug 'sbdchd/neoformat' "alt: worp/ale, Chiel92/vim-autoformat, vim-codefmt
 
@@ -52,15 +63,21 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'editorconfig/editorconfig-vim'
 
+" OTHER PLUGINS FOR CONSIDERATION:
+
 " https://github.com/machakann/vim-highlightedyank
 " OR
 " https://github.com/haya14busa/vim-operator-flashy
 
 " https://github.com/easymotion/vim-easymotion
+" https://github.com/tpope/vim-dispatch
+
+" CONFIGURATION NOTES TO REVISIT:
+
 " https://github.com/languitar/config-vim/blob/master/home/.config/nvim/init.vim
 " http://liuchengxu.org/posts/use-vim-as-a-python-ide/
 " http://ellengummesson.com/blog/2015/08/01/dropping-ctrlp-and-other-vim-plugins/
-" https://github.com/tpope/vim-dispatch
+" http://vim.spf13.com/
 
 "Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
