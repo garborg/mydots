@@ -74,16 +74,17 @@ if has("job")
   " LanguageClient
   let g:LanguageClient_autoStart = 1
   let g:LanguageClient_serverCommands = {
-  \   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
-  \       using LanguageServer;
-  \       server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false);
-  \       server.runlinter = true;
-  \       run(server);
-  \   '],
   \   'go': ['go-langserver'],
   \   'javascript': ['javascript-typescript-stdio'],
   \   'javascript.jsx': ['javascript-typescript-stdio'],
   \ }
+  " skip julia until LanguageServer.jl supports 0.7
+  " \   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
+  " \       using LanguageServer;
+  " \       server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false);
+  " \       server.runlinter = true;
+  " \       run(server);
+  " \   '],
 
   nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
   nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
