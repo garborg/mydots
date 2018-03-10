@@ -1,5 +1,7 @@
 ## My dotfiles
 
+TLDR: My dotfiles are in [dots/](dots) if that's what you're looking for. The rest is about how I deploy them, incorporate third-party code, etc.
+
 #### Project structure design
 
 Install/deploy with a git clone or scp, followed by executing an included script.
