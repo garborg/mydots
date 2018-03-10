@@ -78,6 +78,13 @@ linkDir() {
 
       if [ -f "$tpath/._linkcontents" ]; then
         # link contents of dir individually
+
+        # if dir was previously linked as a whole, remove
+        if [ -L "$lpath" ]; then
+          rm "$lpath"
+          echo "---- Directory unlinked '$lpath'"
+        fi
+
         mkdir -p "$lpath"
         linkDir "$tpath" "$lpath"
       else
@@ -88,7 +95,7 @@ linkDir() {
       [ "$tbn" = ".DS_Store" ] && continue
       linkPath "$tpath" "$lpath" || errs=1
     else
-      echo "---- Ignoring '$tpath'"
+      echo "xxxx Ignoring '$tpath'"
     fi
   done
 
