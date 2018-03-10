@@ -11,7 +11,7 @@
 	ck = checkout
 	d = diff -M
 	dc = diff -M --cached
-	ds = diff --stat -r
+	ds = diff -M --stat -r
 	f = "! f() { git fetch -tp $@; git fetch -p $@; }; f"
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	lgv = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%n%b' --abbrev-commit --date=relative
