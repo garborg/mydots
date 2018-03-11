@@ -2,11 +2,14 @@
 " (at the time the chosen plugin was added or re-evaluated)
 
 " Plugin manager: plug.vim " alt: dein.vim
-"
+
 " TO INSTALL PLUGIN MANAGER:
+"
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " make sure .vimrc is in place
 " then reload .vimrc and call ``:PlugInstall`
+
+" LOAD PLUGINS:
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
@@ -63,6 +66,11 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'editorconfig/editorconfig-vim'
 
+"Language-specific:
+Plug 'JuliaEditorSupport/julia-vim'
+Plug 'fatih/vim-go'
+call plug#end()
+
 " OTHER PLUGINS FOR CONSIDERATION:
 
 " https://github.com/machakann/vim-highlightedyank
@@ -71,6 +79,8 @@ Plug 'editorconfig/editorconfig-vim'
 
 " https://github.com/easymotion/vim-easymotion
 " https://github.com/tpope/vim-dispatch
+" https://github.com/zenbro/mirror.vim
+" https://github.com/tpope/vim-db
 
 " CONFIGURATION NOTES TO REVISIT:
 
@@ -78,11 +88,50 @@ Plug 'editorconfig/editorconfig-vim'
 " http://liuchengxu.org/posts/use-vim-as-a-python-ide/
 " http://ellengummesson.com/blog/2015/08/01/dropping-ctrlp-and-other-vim-plugins/
 " http://vim.spf13.com/
+" https://github.com/liuchengxu/vim-better-default
 
-"Language-specific:
-Plug 'JuliaEditorSupport/julia-vim'
-Plug 'fatih/vim-go'
-call plug#end()
+" CONFIGURE EDITOR:
+
+" netrw
+" https://shapeshed.com/vim-netrw/#netrw-the-unloved-directory-browser
+" http://ellengummesson.com/blog/2014/02/22/make-vim-really-behave-like-netrw/
+" Make netrw 'nerdtree-like'
+" let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+" let g:netrw_browse_split = 4
+" let g:netrw_altv = 1
+" let g:netrw_winsize = 25
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+" augroup END
+
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+" carry ubuntu default everywhere
+colorscheme ron
+
+"hook up copy/paste to system clipboard
+" TODO: avoid clipboard clear when vim is stopped
+set clipboard^=unnamed,unnamedplus
+
+" call out whitespace
+set list
+set showbreak=↪\
+" sensible sets alright listchars if you need ascii
+set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
+" turn off tab highlighting where tab is expected
+autocmd FileType go setlocal listchars=tab:\ \ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
+"but make it easy to toggle off/on
+nnoremap <leader>l :set list!<cr>:set list?<cr>
+
+" display tabs 4 wide
+set tabstop=4
+
+" toggle paste mode (including w/in insert mode)
+set pastetoggle=<F10>
+
+" CONFIGURE PLUGINS:
 
 " ensure that editorconfig works well with fugituve
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
@@ -120,23 +169,6 @@ if v:version < 800
   "let g:syntastic_check_on_wq = 0
 endif
 
-" 'you may not need nerdtree':
-"  https://shapeshed.com/vim-netrw/#netrw-the-unloved-directory-browser
-" and what are wildignores?:
-" http://ellengummesson.com/blog/2014/02/22/make-vim-really-behave-like-netrw/
-" Make netrw 'nerdtree-like'
-" let g:netrw_liststyle = 3
-let g:netrw_banner = 0
-" let g:netrw_browse_split = 4
-" let g:netrw_altv = 1
-" let g:netrw_winsize = 25
-" augroup ProjectDrawer
-"   autocmd!
-"   autocmd VimEnter * :Vexplore
-" augroup END
-
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-
 " integrate rg and ag search.
 " rg for general use, speed, unicode, etc.
 " ag for multiline, backrefs, lookaround.
@@ -171,29 +203,6 @@ command! -bang -nargs=* Rgu
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
-" carry ubuntu default everywhere
-colorscheme ron
-
-" make current search result differentiable from rest
-" (when using incsearch + hlsearch)
-hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
-
-"hook up copy/paste to system clipboard
-" TODO: avoid clipboard clear when vim is stopped
-set clipboard^=unnamed,unnamedplus
-
-" call out whitespace
-set list
-set showbreak=↪\
-" sensible sets alright listchars if you need ascii
-set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
-" turn off tab highlighting where tab is expected
-autocmd FileType go setlocal listchars=tab:\ \ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
-"but make it easy to toggle off/on
-nnoremap <leader>l :set list!<cr>:set list?<cr>
-
-" display tabs 4 wide
-set tabstop=4
 
 " incsearch.vim basic settings
 map /  <Plug>(incsearch-forward)
@@ -213,8 +222,9 @@ map g# <Plug>(incsearch-nohl-g#)#auto_nohlsearch = 1
 " many more incsearch.vim options
 "https://github.com/haya14busa/incsearch.vim
 
-" toggle paste mode (including w/in insert mode)
-set pastetoggle=<F10>
+" make current search result differentiable from rest
+" (when using incsearch + hlsearch)
+hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
 
 " used by gitgutter
 set updatetime=400
@@ -239,9 +249,4 @@ let g:go_fmt_command = "goimports"
 " Another issue with vim-go and syntastic is that the location list window that contains the output of commands such as :GoBuild and :GoTest might not appear. To resolve this:
 " let g:go_list_type = "quickfix"
 
-" Why wasn't :GoDoc working for me, how to get back after :GoDef?
-" Real-time autocomplete: https://github.com/Shougo/neocomplete.vim
-" Tag browsing: https://github.com/majutsushi/tagbar
-
 set wildignore+=*/node_modules/*,*/vendor/*
-
