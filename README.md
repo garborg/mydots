@@ -12,7 +12,7 @@ Install/deploy with a git clone or scp, followed by executing an included script
 
 Dotfiles / dotdirs are symlinked from the project into place. This makes clear when uncommitted changes have been made to managed dots. It also makes clear when browsing the home directory what files are / aren't managed.
 
-It handles externally-maintained scripts without letting them either get stale or change unexpectedly underfoot. See [vendor/README.md](vendor/README.md) for details.
+It handles externally-maintained scripts without letting them either get stale or change unexpectedly underfoot. See [vendor/](vendor) for details.
 
 For Linux and OS X compatibility, the install and vendor scripts work with GNU or BSD utils and are POSIX compliant. POSIX compliance was adhered to mostly to understand the pain of avoiding bashisms. It's nice that '/bin/sh' can handle the scripts, but for meaningful portability gains, I could make sure things worked somewhere without the standard GNU or BSD utils.
 
