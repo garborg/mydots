@@ -64,7 +64,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'editorconfig/editorconfig-vim'
+Plug 'editorconfig/editorconfig-vim' " requires +python
 
 "Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
@@ -89,8 +89,18 @@ call plug#end()
 " http://ellengummesson.com/blog/2015/08/01/dropping-ctrlp-and-other-vim-plugins/
 " http://vim.spf13.com/
 " https://github.com/liuchengxu/vim-better-default
+" https://github.com/JAremko/alpine-vim
 
 " CONFIGURE EDITOR:
+
+" support unicode in more environments
+set encoding=utf-8
+
+" easy movement between windows
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
 
 " netrw
 " https://shapeshed.com/vim-netrw/#netrw-the-unloved-directory-browser
