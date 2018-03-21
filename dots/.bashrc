@@ -30,6 +30,12 @@ case $- in
     *) return;;
 esac
 
+if [ -n "$BASH_VERSION" ]; then
+  # keep more history
+  HISTSIZE=5000
+  HISTFILESIZE=10000
+fi
+
 # Some systems' PROMPT_COMMANDs, etc., rely on /etc/bashrc
 if [ -n "$BASH_VERSION" ] && [ -f "/etc/bashrc" ]; then
   . "/etc/bashrc"
