@@ -9,6 +9,11 @@
 " make sure .vimrc is in place
 " then reload .vimrc and call ``:PlugInstall`
 
+" BEFORE LOADING PLUGINS:
+
+let mapleader = " "
+let maplocalleader = " "
+
 " LOAD PLUGINS:
 
 call plug#begin('~/.vim/plugged')
@@ -96,11 +101,14 @@ call plug#end()
 " support unicode in more environments
 set encoding=utf-8
 
-" easy movement between windows
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
+" manipulate splits without closing random graphical windows
+noremap <leader>w <C-w>
+
+" easy movement between splits
+noremap <leader>h <C-w>h
+noremap <leader>j <C-w>j
+noremap <leader>k <C-w>k
+noremap <leader>l <C-w>l
 
 " netrw
 " https://shapeshed.com/vim-netrw/#netrw-the-unloved-directory-browser
@@ -133,7 +141,7 @@ set listchars=tab:→\ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
 " turn off tab highlighting where tab is expected
 autocmd FileType go setlocal listchars=tab:\ \ ,nbsp:␣,trail:·,extends:⟩,precedes:⟨
 "but make it easy to toggle off/on
-nnoremap <leader>l :set list!<cr>:set list?<cr>
+"nnoremap <leader>l :set list!<cr>:set list?<cr>
 
 " display tabs 4 wide
 set tabstop=4
