@@ -86,6 +86,14 @@ if [ -n "$BASH_VERSION" ]; then
   config_dir="$XDG_CONFIG_HOME"
   [ -z "$config_dir" ] && config_dir="$HOME/.config"
 
+  # Coloration escapes
+  reverse='\[\033[7m\]'
+  unreverse='\[\033[27m\]'
+  default='\[\033[39m\]'
+  bgred='\[\033[41m\]'
+  bgblue='\[\033[44m\]'
+  bgdefault='\[\033[49m\]'
+
   if [ -f "$config_dir/git/git-prompt.sh" ]; then
     . "$config_dir/git/git-prompt.sh"
 
@@ -99,19 +107,24 @@ if [ -n "$BASH_VERSION" ]; then
     # shellcheck disable=SC2034
     GIT_PS1_SHOWUPSTREAM="verbose" # "auto"
     #in prompt_command only: GIT_PS1_SHOWCOLORHINTS=1
-    PS1='$(__git_ps1 "(%s)")'
+    PS1='$(__git_ps1 " (%s)")'
+    export -f __git_ps1
   else
     PS1='(?)'
   fi
 
   # Drop the git component into the main PS1
-  # export PS1="[\u@\h:\[\e[34m\]\w\[\e[m\]$PS1]\n\\$ "
-  PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$PS1\n\\$ "
+  PS1="$default$bgblue\u@\h:$bgdefault\w$PS1"
+
   # Prepend with background job count
-  PS1='`if [ -n "$(jobs -p)" ]; then echo "[\j+]"; fi`'"$PS1"
+  PS1='`if [ -n "$(jobs -p)" ]; then echo "[\j+] "; fi`'"$PS1"
+
   # Prepend with success status of previous command
-  # export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]$PS1"
-  export PS1="\[\e[31m\]"'`RETVAL=$?; [ $RETVAL -ne 0 ] && echo "^^($RETVAL)"`'"\[\e[m\]$PS1"
+  PS1="\`RETVAL=\$?; [ \$RETVAL -ne 0 ] && echo \"$bgred^^\$RETVAL $bgdefault\"\`$PS1"
+
+  # Flip background/foreground, add prompt line
+  export PS1="$reverse$PS1\n$unreverse$bgdefault$default\\$ "
+
 else
   HOSTNAME="$(hostname)"
   export PS1='$USER@$HOSTNAME:$PWD/\$ '
