@@ -13,8 +13,9 @@
 	dc = diff -M --cached
 	ds = diff -M --stat -r
 	f = "! f() { git fetch -tp $@; git fetch -p $@; }; f"
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	lgv = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%n%b' --abbrev-commit --date=relative
+	lg = log --graph --abbrev-commit --date=relative --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%w(0,4,4)%-b%n%n%-N'
+	lgg = log --graph --abbrev-commit --date=relative --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	lgs = log --stat --pretty=fuller
 	m = merge --ff-only
 	pr = "!f() { git fetch origin refs/pull/$1/head:$2; git checkout $2; }; f" # pass args [PR #] & [new branch name], and it fetches, creates, checks out
 	s = status
