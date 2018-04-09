@@ -27,6 +27,14 @@ Do the right thing for any combination of:
 
 Doing the right thing meaning: added functionality should hit precisely the environments it's desirable for and no others.
 
+Considerations:
+- OSX graphical sessions run dots with bash, but debian-based graphical sessions run dots with dash
+  + Anything used by graphical sessions should be POSIX sh
+- OSX graphical read anything actually?
+- Diff between new terminal window in osx vs ubuntu?
+- Giving login (interactive or non) path, etc.
+- bash vs /bin/sh vs bash --posix-mode
+
 #### Status
 
 Paths I hit daily are pretty smooth. Shell init script structure will be cleaned up eventually (once that whole 'do the right thing' requirement feels done-ish). 'Tested' with bash, dash, and bash's posix mode. Testing in an ash / busy box environment would be instructive.

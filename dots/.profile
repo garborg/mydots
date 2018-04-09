@@ -15,6 +15,13 @@ export order="$order .profile"
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# reset text effects to recover on login from inconsistent states
+# e.g. on reconnect after disconnect with client that doesn't reset colors in PS1
+# TODO: consider tput init/reset/clear instead
+case $- in
+  *i*) tput sgr0
+esac
+
 # .bash_profile comes here, and we got to .bashrc if in .bash
 # (get bash-y goodness
 # Terminal ru

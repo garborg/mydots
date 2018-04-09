@@ -34,7 +34,7 @@ if has("job")
 endif
 
 " automatic tag generation/update
-" (useful for languages/environments missing languageservers)
+" (useful for languages/environments missing language servers)
 Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
 
 " completion
@@ -62,18 +62,30 @@ endif
 " https://prettier.io/docs/en/vim.html
 Plug 'sbdchd/neoformat' "alt: worp/ale, Chiel92/vim-autoformat, vim-codefmt
 
+" git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+" tmux nav
+" C-{h,j,k,l} for split nav & tmux pane nav
+" Plug 'christoomey/vim-tmux-navigator'
+
+" Standardized indentation, etc., by filetype/name
+Plug 'editorconfig/editorconfig-vim' " requires +python
+
+" Movement, etc.
 Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'editorconfig/editorconfig-vim' " requires +python
+Plug 'chrisbra/Recover.vim'
 
 "Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'fatih/vim-go'
+" Plug 'pangloss/vim-javascript'
+
 call plug#end()
 
 " OTHER PLUGINS FOR CONSIDERATION:
@@ -105,12 +117,17 @@ set encoding=utf-8
 noremap <leader>w <C-w>
 
 " easy movement between splits
+" TODO: why is <leader>h delayed, while <leader>j and <leader>wh aren't
 noremap <leader>h <C-w>h
 noremap <leader>j <C-w>j
 noremap <leader>k <C-w>k
 noremap <leader>l <C-w>l
 
+noremap <leader>b :Buffers<CR>
+noremap <leader>f :Files<CR>
+
 " netrw
+let g:netrw_dirhistmax=0 " don't need the clutter in .vim
 " https://shapeshed.com/vim-netrw/#netrw-the-unloved-directory-browser
 " http://ellengummesson.com/blog/2014/02/22/make-vim-really-behave-like-netrw/
 " Make netrw 'nerdtree-like'
@@ -227,6 +244,7 @@ map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
+" incsearch smart auto hl-toggle
 " :h g:incsearch#auto_nohlsearch
 set hlsearch
 let g:incsearch#auto_nohlsearch = 1
@@ -235,7 +253,7 @@ map N  <Plug>(incsearch-nohl-N)
 map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)#auto_nohlsearch = 1
+map g# <Plug>(incsearch-nohl-g#)
 
 " many more incsearch.vim options
 "https://github.com/haya14busa/incsearch.vim

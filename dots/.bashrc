@@ -46,7 +46,8 @@ if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc.ubuntu" ]; then
   . "$HOME/.bashrc.ubuntu"
 fi
 
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.fzf.bash" ]; then
+# fzf uses varnames that keep it from working under `bash --posix`
+if [ -n "$BASH_VERSION" ] && ! shopt -oq posix && [ -f "$HOME/.fzf.bash" ]; then
   . ~/.fzf.bash
 fi
 
@@ -67,14 +68,12 @@ fi
 export CLICOLOR=1
 
 # color osx/bsd grep like ubuntu/gnu grep
+# (Oft-recommended alternative of aliasing with --color=auto is not reliable,
+#  e.g when piping via xargs)
 if command -v grep > /dev/null 2>&1 && grep --version | grep -q "BSD"; then
   # deprecated in GNU grep 2.x
   export GREP_OPTIONS="--color=auto"
 fi
-# Recommended alternative fails, e.g when piping via xargs:
-# alias grep="grep --color=auto"
-# alias fgrep="fgrep --color=auto"
-# alias egrep="egrep --color=auto"
 
 ### build ps1:
 
@@ -139,7 +138,9 @@ gocd () { cd "$(go list -f '{{.Dir}}' "$1")"; } # gocd .../mypkg
 
 #javascript
 export NVM_DIR="/home/sean/.nvm"
-[ -n "$BASH_VERSION" ] && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -f "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# other bash completion is off under posix mode
+[ -n "$BASH_VERSION" ] && ! shopt -q posix  && [ -f "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # python (& devtools written in python)
 
@@ -148,4 +149,3 @@ mkpydev () { python3 -m venv /usr/local/dev-env; }
 [ -n "$BASH_VERSION" ] && export -f mkpydev
 pydev () { . ~/.dev-env/bin/activate; }
 [ -n "$BASH_VERSION" ] && export -f pydev
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
