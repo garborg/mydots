@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-export order="$order .bashrc"
+export order="${order:-} .bashrc"
 
 is_interactive=false
 case "$-" in
    *i*) is_interactive=true ;;
 esac
 
-if [ -n "$BASH_VERSION" ]; then
+is_login="?"
+if [ -n "${BASH:-}" ]; then
   is_login=false
   if shopt -q login_shell; then
     is_login=true
@@ -15,11 +16,12 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 is_ssh=false
-if [ -n "$SSH_CLIENT" ]  || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
+if [ -n "${SSH_CLIENT:-}" ]  || [ -n "${SSH_TTY:-}" ] || [ -n "${SSH_CONNECTION:-}" ]; then
   is_ssh=true
 fi
 
-export order="$order. $- $BASH_VERSION (i:$is_interactive, l: $is_login, ssh: $is_ssh)"
+export order="$order. $- ${BASH:-} (i:$is_interactive, l: $is_login, ssh: $is_ssh)"
+
 
 # Make sure non-bash non-login shells get non-bash config
 export ENV="$HOME/.bashrc"
@@ -30,24 +32,24 @@ case $- in
     *) return;;
 esac
 
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "${BASH:-}" ]; then
   # keep more history
   HISTSIZE=5000
   HISTFILESIZE=10000
 fi
 
 # Some systems' PROMPT_COMMANDs, etc., rely on /etc/bashrc
-if [ -n "$BASH_VERSION" ] && [ -f "/etc/bashrc" ]; then
+if [ -n "${BASH:-}" ] && [ -f "/etc/bashrc" ]; then
   . "/etc/bashrc"
 fi
 
 # Keep ubuntu's default .bashrc as a base
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc.ubuntu" ]; then
+if [ -n "${BASH:-}" ] && [ -f "$HOME/.bashrc.ubuntu" ]; then
   . "$HOME/.bashrc.ubuntu"
 fi
 
 # fzf uses varnames that keep it from working under `bash --posix`
-if [ -n "$BASH_VERSION" ] && ! shopt -oq posix && [ -f "$HOME/.fzf.bash" ]; then
+if [ -n "${BASH:-}" ] && ! shopt -oq posix && [ -f "$HOME/.fzf.bash" ]; then
   . ~/.fzf.bash
 fi
 
@@ -77,13 +79,9 @@ fi
 
 ### build ps1:
 
-# # export PS1="\[\e[31m\]$(if [ $(id -u) -ne 0 ] then echo $(nonzero_return) ; fi)\[\e[m\]\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\]\n\\$ "
-# fi
-
 # set PS1
-if [ -n "$BASH_VERSION" ]; then
-  config_dir="$XDG_CONFIG_HOME"
-  [ -z "$config_dir" ] && config_dir="$HOME/.config"
+if [ -n "${BASH:-}" ]; then
+  config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
 
   # Coloration escapes
   reverse='\[\033[7m\]'
@@ -134,18 +132,18 @@ fi
 # go
 export GOPATH=$HOME
 gocd () { cd "$(go list -f '{{.Dir}}' "$1")"; } # gocd .../mypkg
-[ -n "$BASH_VERSION" ] && export -f gocd
+[ -n "${BASH:-}" ] && export -f gocd
 
 #javascript
 export NVM_DIR="/home/sean/.nvm"
 [ -f "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # other bash completion is off under posix mode
-[ -n "$BASH_VERSION" ] && ! shopt -q posix  && [ -f "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -n "${BASH:-}" ] && ! shopt -oq posix  && [ -f "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # python (& devtools written in python)
 
 # used to set up and activate a default virtualenv for local development tools
 mkpydev () { python3 -m venv /usr/local/dev-env; }
-[ -n "$BASH_VERSION" ] && export -f mkpydev
+[ -n "${BASH:-}" ] && export -f mkpydev
 pydev () { . ~/.dev-env/bin/activate; }
-[ -n "$BASH_VERSION" ] && export -f pydev
+[ -n "${BASH:-}" ] && export -f pydev

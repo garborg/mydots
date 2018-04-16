@@ -1,7 +1,7 @@
 # Bash-specific stuff goes here instead of .bash_profile to use bash
 # functionality when bash emulates sh, etc.
 
-export order="$order .profile"
+export order="${order:-} .profile"
 
 ## says ubuntu:
 
@@ -25,7 +25,7 @@ esac
 # .bash_profile comes here, and we got to .bashrc if in .bash
 # (get bash-y goodness
 # Terminal ru
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "${BASH:-}" ]; then
   if [ -f "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"
   fi
