@@ -7,13 +7,16 @@
 	default = simple # use git 2.x behavior even on 1.x
 [color]
 	ui = auto
+[color "diff"]
+	meta = yellow bold
 [diff]
+	colorMoved = dimmed_zebra
 	indentHeuristic = true # use git 2.17+ behavior on 2.11-2.16
 [alias]
 	ck = checkout
-	d = diff -M
-	dc = diff -M --cached
-	ds = diff -M --stat -r
+	d = diff -D -M
+	dc = diff -D -M --cached
+	ds = diff -D -M --stat -r
 	f = "! f() { git fetch -tp $@; git fetch -p $@; }; f"
 	# lg* aliai work with log flags like '--all', '--stat', etc.
 	lg = log --graph --date=relative --pretty=format:'%C(auto)%h %d %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%w(0,4,4)%-b%n%n%-N'

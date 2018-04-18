@@ -1,10 +1,12 @@
-FROM debian:latest
+FROM debian:buster
 
 RUN apt-get update && apt-get install -y \
-  build-essential git curl
+  bash-completion build-essential curl git man
 
 ENV hm /
 ENV inst /usr/local
+
+WORKDIR $hm
 
 #
 # utils
@@ -14,10 +16,8 @@ RUN apt-get install -y \
   silversearcher-ag \
   python3-pip
 
-# TODO: add the fzf flags
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ${hm}/.fzf \
-  && ${hm}/.fzf/install
-# --key-bindings --completion --no-update-rc
+  && HOME=${hm} ${hm}/.fzf/install --all --no-update-rc
 
 # ripgrep
 RUN  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep_0.8.1_amd64.deb \
@@ -46,7 +46,7 @@ RUN git clone https://github.com/vim/vim ${inst}/vim \
      --enable-terminal \
      --enable-fail-if-missing \
      --enable-python3interp \
-     --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+     --with-python3-config-dir=/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu \
      --disable-gui \
      --disable-netbeans \
   && make install
@@ -77,46 +77,60 @@ RUN npm install -g npm@latest
 
 RUN npm install -g \
   javascript-typescript-langserver \
-  prettier \
-  js-beautify \
-  eslint
+  prettier
+  # \
+  # js-beautify \
+  # eslint
+  # https://prettier.io/docs/en/eslint.html
+  # https://github.com/prettier/prettier-eslint
 
 #
 # python
 #
 
 RUN pip3 install \
-  yapf \
+  black \
+  isort \
   mypy \
   jedi \
-  flake8 \
+  pyflakes \
   pylint
 
 #
-# dots
-#
-
-# adhoc/nameless/unmapped users get '/' for a $HOME
-# i.e. without: RUN echo "sean:x:1001:1001:Sean Garborg,,,:/home/sean:/bin/bash" >> /etc/passwd
-
-COPY ./dots/* ${hm}
-
-#
-# vim packages
+# vim package deps
 #
 
 # ctags
 RUN  apt-get install -y \
   autoconf
+# &&  ./configure # --prefix=/where/you/want # defaults to /usr/local \
 RUN cd ${inst} \
   && git clone https://github.com/universal-ctags/ctags.git \
   && cd ctags \
   &&  ./autogen.sh \
-  &&  ./configure # --prefix=/where/you/want # defaults to /usr/local \
+  &&  ./configure \
   && make \
-  && sudo make install
+  && make install
 
-# RUN vim -esNu ${hm}/.vimrc +PlugInstall +qa
+#
+# dots
+#
+
+RUN npm install -g \
+  eslint-config-react-app
+
+# adhoc/nameless/unmapped users get '/' for a $HOME
+# i.e. without: RUN echo "sean:x:1001:1001:Sean Garborg,,,:/home/sean:/bin/bash" >> /etc/passwd
+
+COPY ./ ${hm}/mydots/
+RUN cd ${hm}/mydots && HOME=${hm} ./linkdots.sh
+
+#
+# vim packages
+#
+
+RUN ls -al ${hm}
+RUN HOME=${hm} vim -eNu ${hm}/.vimrc +PlugInstall +qa
 
 WORKDIR /usr/src
 

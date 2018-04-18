@@ -35,7 +35,9 @@ endif
 
 " automatic tag generation/update
 " (useful for languages/environments missing language servers)
-Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
+if has("job")
+  Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
+endif
 
 " completion
 " https://pinboard.in/u:garborg/tabs/283297/
@@ -55,7 +57,7 @@ if v:version < 800
   Plug 'scrooloose/syntastic'
 else
   " ale is async and has capabilities beyond linting
-  Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake, maralla/validator.vim
+  Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake
 endif
 
 " code formatter
@@ -125,6 +127,7 @@ noremap <leader>l <C-w>l
 
 noremap <leader>b :Buffers<CR>
 noremap <leader>f :Files<CR>
+noremap <leader>n :Neoformat<CR>
 
 " netrw
 let g:netrw_dirhistmax=0 " don't need the clutter in .vim
@@ -267,7 +270,9 @@ set updatetime=400
 
 " Language-specific again:
 
-"let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_run_all_formatters = 1
+"let g:neoformat_enabled_javascript = ['prettier'] "prettier-eslint?
+let g:neoformat_enabled_python = ['black', 'isort']
 
 " let g:julia_blocks=0 " maybe turn of julia-vim's matchit mappings
 let g:default_julia_version = "0.6"
