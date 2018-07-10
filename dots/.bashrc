@@ -111,4 +111,7 @@ fi
 # fzf uses varnames that keep it from working under `bash --posix`
 if [ -f "$HOME/.fzf.bash" ]; then
   . ~/.fzf.bash
+
+  # sort history matches by recency
+  export FZF_CTRL_R_OPTS='--sort'
 fi
