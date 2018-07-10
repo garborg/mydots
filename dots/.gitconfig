@@ -10,6 +10,7 @@
 [color "diff"]
 	meta = yellow bold
 [core]
+	# alternative: https://github.com/so-fancy/diff-so-fancy
 	pager = ~/.config/git/diff-highlight | less
 [diff]
 	# colorMoved = dimmed_zebra
