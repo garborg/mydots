@@ -89,6 +89,11 @@ if command -v vim > /dev/null 2>&1; then
   alias vi='vim'
 fi
 
+if command -v tmux > /dev/null 2>&1; then
+  # add flag for 256 color support
+  alias tmux='tmux -2'
+fi
+
 # The ls aliases from .bashrc.ubuntu
 alias ll='ls -alF'
 alias la='ls -A'

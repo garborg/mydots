@@ -18,6 +18,7 @@ let maplocalleader = " "
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
+Plug 'NLKNguyen/papercolor-theme'
 
 " navigation outside of active file
 Plug '~/.fzf' " I have fzf installed with my dotfiles
@@ -83,7 +84,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'chrisbra/Recover.vim'
 
-"Language-specific:
+" Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'fatih/vim-go'
 " Plug 'pangloss/vim-javascript'
@@ -146,8 +147,13 @@ let g:netrw_banner = 0
 
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
-" carry ubuntu default everywhere
-colorscheme ron
+" Nice colorscheme
+set t_Co=256   " in case not recognized
+set background=dark
+colorscheme PaperColor
+" make current search result differentiable from rest
+" (when using incsearch + hlsearch)
+hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
 
 "hook up copy/paste to system clipboard
 " TODO: avoid clipboard clear when vim is stopped
@@ -261,9 +267,6 @@ map g# <Plug>(incsearch-nohl-g#)
 " many more incsearch.vim options
 "https://github.com/haya14busa/incsearch.vim
 
-" make current search result differentiable from rest
-" (when using incsearch + hlsearch)
-hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
 
 " used by gitgutter
 set updatetime=400
