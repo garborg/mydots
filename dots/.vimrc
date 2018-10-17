@@ -63,7 +63,7 @@ endif
 
 " code formatter
 " https://prettier.io/docs/en/vim.html
-Plug 'sbdchd/neoformat' "alt: worp/ale, Chiel92/vim-autoformat, vim-codefmt
+Plug 'sbdchd/neoformat' "alt: worp/ale, LanguageClient-neovim, Chiel92/vim-autoformat, vim-codefmt
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -120,12 +120,13 @@ set encoding=utf-8
 noremap <leader>w <C-w>
 
 " easy movement between splits
-" TODO: why is <leader>h delayed, while <leader>j and <leader>wh aren't
+" TODO: get rid of <leader>h delay or change mappings
 noremap <leader>h <C-w>h
 noremap <leader>j <C-w>j
 noremap <leader>k <C-w>k
 noremap <leader>l <C-w>l
 
+noremap <leader>g :Rg<space>
 noremap <leader>b :Buffers<CR>
 noremap <leader>f :Files<CR>
 noremap <leader>n :Neoformat<CR>
@@ -184,6 +185,7 @@ if has("job")
   " LanguageClient
   let g:LanguageClient_autoStart = 1
   let g:LanguageClient_serverCommands = {
+  \   'python': ['pyls'],
   \   'go': ['go-langserver'],
   \   'javascript': ['javascript-typescript-stdio'],
   \   'javascript.jsx': ['javascript-typescript-stdio'],
