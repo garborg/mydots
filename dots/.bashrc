@@ -28,6 +28,66 @@ case $- in
     *) return;;
 esac
 
+
+### General
+
+# reset text effects to recover on login from inconsistent states
+# e.g. on reconnect after disconnect with client that doesn't reset colors in PS1
+# TODO: consider tput init/reset/clear instead
+tput sgr0
+
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+HISTSIZE=5000
+
+HOSTNAME="$(hostname)"
+export PS1='$USER@$HOSTNAME:$PWD/\$ '
+
+if command -v nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi
+if command -v vim > /dev/null 2>&1; then
+  # make vi point at local vim if installed
+  alias vi='vim'
+fi
+
+if command -v tmux > /dev/null 2>&1; then
+  # add flag for 256 color support
+  alias tmux='tmux -2'
+fi
+
+# The ls aliases from .bashrc.ubuntu
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# color osx/bsd ls like ubuntu/gnu ls
+export CLICOLOR=1
+
+# color osx/bsd grep like ubuntu/gnu grep
+# (Oft-recommended alternative of aliasing with --color=auto is not reliable,
+#  e.g when piping via xargs)
+if command -v grep > /dev/null 2>&1 && grep --version | grep -q "BSD"; then
+  # deprecated in GNU grep 2.x
+  export GREP_OPTIONS="--color=auto"
+fi
+
+
+## Language specific
+
+# go
+export GOPATH=$HOME
+
+#javascript
+export NVM_DIR="/home/sean/.nvm"
+if [ -f "$NVM_DIR/nvm.sh" ]; then
+  . "$NVM_DIR/nvm.sh"  # This loads nvm
+fi
+
+
+### Bash
+
 # If not bash, nothing more to do
 if [ -z "${BASH:-}" ]; then
   return
@@ -49,7 +109,8 @@ fi
 HISTSIZE=5000
 HISTFILESIZE=10000
 
-### build ps1:
+
+## Build ps1:
 
 # set PS1
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -97,6 +158,9 @@ retval="\`RETVAL=\$?; [ \$RETVAL -ne 0 ] && echo \"$fgred^^\$RETVAL$fgdefault\"\
 
 # Flip background/foreground, add prompt line with prepended status code
 export PS1="$bold┌$retval─$PS1\n└─\\\$$unbold$reset "
+
+
+### Non-posix
 
 # If posix mode, nothing more to do
 if shopt -oq posix; then
