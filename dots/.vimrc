@@ -36,9 +36,9 @@ endif
 
 " automatic tag generation/update
 " (useful for languages/environments missing language servers)
-if has("job")
-  Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
-endif
+" if has("job")
+"   Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
+" endif
 
 " completion
 " https://pinboard.in/u:garborg/tabs/283297/
