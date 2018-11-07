@@ -25,6 +25,8 @@
 	lg = log --graph --date=relative --pretty=format:'%C(auto)%h %d %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n%w(0,4,4)%-b%n%n%-N'
 	lgg = log --graph --date=relative --pretty=format:'%C(auto)%h %d %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	lgs = log --graph --decorate --oneline --simplify-by-decoration
+	local-branches = !git branch -vv | cut -c 3- | awk '$3 !~/\\[/ { print $1 }'
+	ahead-branches = !git branch -vv | cut -c 3- | awk '/^[^[]+\\[[^]]+:[^]]*ahead/ { print $1 }'
 	m = merge --ff-only
 	pr = "!f() { git fetch origin refs/pull/$1/head:$2; git checkout $2; }; f" # pass args [PR #] & [new branch name], and it fetches, creates, checks out
 	s = status
