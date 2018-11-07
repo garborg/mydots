@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:unstable
 
 RUN apt-get update && apt-get install -y \
   bash-completion build-essential curl git man
