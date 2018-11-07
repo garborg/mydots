@@ -16,6 +16,16 @@ Work for any combination of:
 - interactive or non-interactive
 - /bin/sh or bash or bash --posix
 
+Test:
+- ubuntu ui
+- ubuntu gnome-terminal
+- rasbian desktop
+- rasbian terminal
+- rasbian ssh-ed in
+- osx ui
+- osx terminal
+- dash
+
 Apply just what's relevant (and supported) for each combination, and keep as consistent as possible across environments.
 
 #### File management design
