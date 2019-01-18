@@ -73,9 +73,6 @@ Plug 'airblade/vim-gitgutter'
 " C-{h,j,k,l} for split nav & tmux pane nav
 " Plug 'christoomey/vim-tmux-navigator'
 
-" Standardized indentation, etc., by filetype/name
-Plug 'editorconfig/editorconfig-vim' " requires +python
-
 " Movement, etc.
 Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-surround'
@@ -172,6 +169,8 @@ autocmd FileType go setlocal listchars=tab:\ \ ,nbsp:␣,trail:·,extends:⟩,pr
 
 " display tabs 4 wide
 set tabstop=4
+set shiftwidth=4
+set expandtab
 
 " toggle paste mode (including w/in insert mode)
 set pastetoggle=<F10>
