@@ -85,6 +85,10 @@ if [ -f "$NVM_DIR/nvm.sh" ]; then
   . "$NVM_DIR/nvm.sh"  # This loads nvm
 fi
 
+# julia
+# Swap until [#28781](https://github.com/JuliaLang/julia/issues/28781) is resolved
+# alias j='julia --project'
+alias j='JULIA_PROJECT="@." julia'
 
 ### Bash
 
