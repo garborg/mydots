@@ -272,9 +272,6 @@ let g:neoformat_run_all_formatters = 1
 "let g:neoformat_enabled_javascript = ['prettier'] "prettier-eslint?
 let g:neoformat_enabled_python = ['black', 'isort']
 
-" let g:julia_blocks=0 " maybe turn of julia-vim's matchit mappings
-let g:default_julia_version = "0.6"
-
 " Use goimports on save (.go files)
 let g:go_fmt_command = "goimports"
 
