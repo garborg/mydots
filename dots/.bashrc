@@ -1,61 +1,85 @@
 #!/usr/bin/env bash
 
-export order="${order:-} .bashrc"
+# Nice overview: https://superuser.com/questions/789448/choosing-between-bashrc-profile-bash-profile-etc
 
-is_interactive=false
-case "$-" in
-   *i*) is_interactive=true ;;
-esac
+# login: /etc/profile. first of .bash_profile, .bash_login, .profile
+# interactive, non-login: .bashrc
+# non-interactive, non-login: BASH_ENV
+# some non-login commands will only hit .bashrc
 
-is_login="?"
-if [ -n "${BASH:-}" ]; then
-  is_login=false
-  if shopt -q login_shell; then
-    is_login=true
-  fi
+# Considerations:
+# - [bash startup order](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html)
+# - OSX graphical sessions run dots with bash, but debian-based graphical sessions run dots with dash
+#   + Anything used by graphical sessions should be POSIX sh
+# - OSX graphical read anything actually?
+# - Unlike linux terminals Terminal.app runs login shells
+# - Giving login (interactive or non) path, etc.
+# - `bash --posix` has `$BASH` && `shopt -oq posix`
+
+
+###
+### Shared by all (bash/sh, interactive/non-interactive, etc.)
+###
+
+
+### General
+
+# ENV is used by sh for interactive sessions
+# .profile is used by sh and bash --posix for login sessions
+# Make sure non-bash non-login shells get non-bash chunks of config
+export ENV="$HOME/.bashrc"
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+  PATH="$HOME/bin:$PATH"
 fi
 
-is_ssh=false
-if [ -n "${SSH_CLIENT:-}" ]  || [ -n "${SSH_TTY:-}" ] || [ -n "${SSH_CONNECTION:-}" ]; then
-  is_ssh=true
+if command -v nvim > /dev/null 2>&1; then
+  export VISUAL=nvim
+else
+  export VISUAL=vim
 fi
+export EDITOR="$VISUAL"
 
-export order="$order. $- ${BASH:-} (i:$is_interactive, l: $is_login, ssh: $is_ssh)"
 
-# If not running interactively, nothing more to do
+### Language specific
+
+# go
+PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME
+
+# rust
+# info suggested: PATH="$HOME/.cargo/bin:$PATH"
+PATH="$PATH:$HOME/.cargo/bin"
+
+
+###
+### End of non-interactive settings
+###
+
 case $- in
   *i*) ;;
     *) return;;
 esac
 
 
-### General
+## General
 
 # reset text effects to recover on login from inconsistent states
 # e.g. on reconnect after disconnect with client that doesn't reset colors in PS1
 # TODO: consider tput init/reset/clear instead
 tput sgr0
 
-export VISUAL=vim
-export EDITOR="$VISUAL"
-
 HISTSIZE=5000
 
 HOSTNAME="$(hostname)"
 export PS1='$USER@$HOSTNAME:$PWD/\$ '
 
-if command -v nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-fi
-if command -v vim > /dev/null 2>&1; then
-  # make vi point at local vim if installed
-  alias vi='vim'
-fi
 
-if command -v tmux > /dev/null 2>&1; then
-  # add flag for 256 color support
-  alias tmux='tmux -2'
-fi
+## Utilities
 
 # The ls aliases from .bashrc.ubuntu
 alias ll='ls -alF'
@@ -71,6 +95,20 @@ export CLICOLOR=1
 if command -v grep > /dev/null 2>&1 && grep --version | grep -q "BSD"; then
   # deprecated in GNU grep 2.x
   export GREP_OPTIONS="--color=auto"
+fi
+
+if command -v nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi
+
+if command -v vim > /dev/null 2>&1; then
+  # make vi point at local vim if installed
+  alias vi='vim'
+fi
+
+if command -v tmux > /dev/null 2>&1; then
+  # add flag for 256 color support
+  alias tmux='tmux -2'
 fi
 
 
@@ -90,12 +128,18 @@ fi
 # alias j='julia --project'
 alias j='JULIA_PROJECT="@." julia'
 
-### Bash
+
+###
+### End of non-bash settings
+###
 
 # If not bash, nothing more to do
 if [ -z "${BASH:-}" ]; then
   return
 fi
+
+
+## General
 
 # Some systems' PROMPT_COMMANDs, etc., rely on /etc/bashrc
 if [ -f "/etc/bashrc" ]; then
@@ -164,22 +208,18 @@ retval="\`RETVAL=\$?; [ \$RETVAL -ne 0 ] && echo \"$fgred^^\$RETVAL$fgdefault\"\
 export PS1="$bold┌$retval─$PS1\n└─\\\$$unbold$reset "
 
 
-### Non-posix
+## Utilities
 
-# If posix mode, nothing more to do
-if shopt -oq posix; then
-  return
-fi
-
-# other bash completion is off under posix mode
-if [ -f "$NVM_DIR/bash_completion" ]; then
-  . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
-
-# fzf uses varnames that keep it from working under `bash --posix`
 if [ -f "$HOME/.fzf.bash" ]; then
   . ~/.fzf.bash
 
   # sort history matches by recency
   export FZF_CTRL_R_OPTS='--sort'
+fi
+
+
+## Language specific
+
+if [ -f "$NVM_DIR/bash_completion" ]; then
+  . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
