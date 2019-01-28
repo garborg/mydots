@@ -18,6 +18,7 @@ let maplocalleader = " "
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
+Plug 'NLKNguyen/papercolor-theme'
 
 " navigation outside of active file
 Plug '~/.fzf' " I have fzf installed with my dotfiles
@@ -32,10 +33,6 @@ if has("job")
   \ 'do': 'bash install.sh',
   \ }
 endif
-
-" automatic tag generation/update
-" (useful for languages/environments missing languageservers)
-Plug 'ludovicchabant/vim-gutentags' " alt: 'craigemery/vim-autotag' 'LucHermitte/lh-tags' 'xolox/vim-easytags'
 
 " completion
 " https://pinboard.in/u:garborg/tabs/283297/
@@ -55,25 +52,34 @@ if v:version < 800
   Plug 'scrooloose/syntastic'
 else
   " ale is async and has capabilities beyond linting
-  Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake, maralla/validator.vim
+  Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake
 endif
 
 " code formatter
 " https://prettier.io/docs/en/vim.html
-Plug 'sbdchd/neoformat' "alt: worp/ale, Chiel92/vim-autoformat, vim-codefmt
+Plug 'sbdchd/neoformat' "alt: worp/ale, LanguageClient-neovim, Chiel92/vim-autoformat, vim-codefmt
 
+" git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+" tmux nav
+" C-{h,j,k,l} for split nav & tmux pane nav
+" Plug 'christoomey/vim-tmux-navigator'
+
+" Movement, etc.
 Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'editorconfig/editorconfig-vim' " requires +python
+Plug 'chrisbra/Recover.vim'
 
-"Language-specific:
+" Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'fatih/vim-go'
+" Plug 'pangloss/vim-javascript'
+
 call plug#end()
 
 " OTHER PLUGINS FOR CONSIDERATION:
@@ -105,12 +111,19 @@ set encoding=utf-8
 noremap <leader>w <C-w>
 
 " easy movement between splits
+" TODO: get rid of <leader>h delay or change mappings
 noremap <leader>h <C-w>h
 noremap <leader>j <C-w>j
 noremap <leader>k <C-w>k
 noremap <leader>l <C-w>l
 
+noremap <leader>g :Rg<space>
+noremap <leader>b :Buffers<CR>
+noremap <leader>f :Files<CR>
+noremap <leader>n :Neoformat<CR>
+
 " netrw
+let g:netrw_dirhistmax=0 " don't need the clutter in .vim
 " https://shapeshed.com/vim-netrw/#netrw-the-unloved-directory-browser
 " http://ellengummesson.com/blog/2014/02/22/make-vim-really-behave-like-netrw/
 " Make netrw 'nerdtree-like'
@@ -126,8 +139,13 @@ let g:netrw_banner = 0
 
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
-" carry ubuntu default everywhere
-colorscheme ron
+" Nice colorscheme
+set t_Co=256   " in case not recognized
+set background=dark
+colorscheme PaperColor
+" make current search result differentiable from rest
+" (when using incsearch + hlsearch)
+hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
 
 "hook up copy/paste to system clipboard
 " TODO: avoid clipboard clear when vim is stopped
@@ -145,6 +163,8 @@ autocmd FileType go setlocal listchars=tab:\ \ ,nbsp:␣,trail:·,extends:⟩,pr
 
 " display tabs 4 wide
 set tabstop=4
+set shiftwidth=4
+set expandtab
 
 " toggle paste mode (including w/in insert mode)
 set pastetoggle=<F10>
@@ -158,6 +178,7 @@ if has("job")
   " LanguageClient
   let g:LanguageClient_autoStart = 1
   let g:LanguageClient_serverCommands = {
+  \   'python': ['pyls'],
   \   'go': ['go-langserver'],
   \   'javascript': ['javascript-typescript-stdio'],
   \   'javascript.jsx': ['javascript-typescript-stdio'],
@@ -227,6 +248,7 @@ map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
+" incsearch smart auto hl-toggle
 " :h g:incsearch#auto_nohlsearch
 set hlsearch
 let g:incsearch#auto_nohlsearch = 1
@@ -235,24 +257,20 @@ map N  <Plug>(incsearch-nohl-N)
 map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)#auto_nohlsearch = 1
+map g# <Plug>(incsearch-nohl-g#)
 
 " many more incsearch.vim options
 "https://github.com/haya14busa/incsearch.vim
 
-" make current search result differentiable from rest
-" (when using incsearch + hlsearch)
-hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
 
 " used by gitgutter
 set updatetime=400
 
 " Language-specific again:
 
-"let g:neoformat_enabled_javascript = ['prettier']
-
-" let g:julia_blocks=0 " maybe turn of julia-vim's matchit mappings
-let g:default_julia_version = "0.6"
+let g:neoformat_run_all_formatters = 1
+"let g:neoformat_enabled_javascript = ['prettier'] "prettier-eslint?
+let g:neoformat_enabled_python = ['black', 'isort']
 
 " Use goimports on save (.go files)
 let g:go_fmt_command = "goimports"
