@@ -171,9 +171,6 @@ set pastetoggle=<F10>
 
 " CONFIGURE PLUGINS:
 
-" ensure that editorconfig works well with fugituve
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-
 if has("job")
   " LanguageClient
   let g:LanguageClient_autoStart = 1
