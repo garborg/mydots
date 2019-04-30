@@ -24,15 +24,16 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug '~/.fzf' " I have fzf installed with my dotfiles
 Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
 
-" language server protocol
+" language server protocol. for now using ale.
+" alt: lsp.vim, coc.nvim, ale, laguageclient-neovim
 " (support for renames, go to definition, etc.)
 " language server: https://pinboard.in/u:garborg/tabs/283303/
-if has("job")
-  Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ }
-endif
+" if has("job")
+"   Plug 'autozimu/LanguageClient-neovim', {
+"   \ 'branch': 'next',
+"   \ 'do': 'bash install.sh',
+"   \ }
+" endif
 
 " completion
 " https://pinboard.in/u:garborg/tabs/283297/
@@ -48,16 +49,14 @@ endif
 " endif
 
 " linter
-if v:version < 800
-  Plug 'scrooloose/syntastic'
-else
+if !(v:version < 800)
   " ale is async and has capabilities beyond linting
   Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake
 endif
 
 " code formatter
 " https://prettier.io/docs/en/vim.html
-Plug 'sbdchd/neoformat' "alt: worp/ale, LanguageClient-neovim, Chiel92/vim-autoformat, vim-codefmt
+" Plug 'sbdchd/neoformat' "alt: worp/ale, LanguageClient-neovim, Chiel92/vim-autoformat, vim-codefmt
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -73,11 +72,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'chrisbra/Recover.vim'
+" Plug 'chrisbra/Recover.vim'
 
 " Language-specific:
 Plug 'JuliaEditorSupport/julia-vim'
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 " Plug 'pangloss/vim-javascript'
 
 call plug#end()
@@ -143,6 +142,7 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set t_Co=256   " in case not recognized
 set background=dark
 colorscheme PaperColor
+
 " make current search result differentiable from rest
 " (when using incsearch + hlsearch)
 hi Cursor ctermfg=15 ctermbg=9 guifg=White guibg=Red
@@ -171,39 +171,27 @@ set pastetoggle=<F10>
 
 " CONFIGURE PLUGINS:
 
-if has("job")
-  " LanguageClient
-  let g:LanguageClient_autoStart = 1
-  let g:LanguageClient_serverCommands = {
-  \   'python': ['pyls'],
-  \   'go': ['go-langserver'],
-  \   'javascript': ['javascript-typescript-stdio'],
-  \   'javascript.jsx': ['javascript-typescript-stdio'],
-  \ }
-  " skip julia until LanguageServer.jl supports 0.7
-  " \   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
-  " \       using LanguageServer;
-  " \       server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false);
-  " \       server.runlinter = true;
-  " \       run(server);
-  " \   '],
+" if has("job")
+"   " LanguageClient
+"   let g:LanguageClient_autoStart = 1
+"   let g:LanguageClient_serverCommands = {
+"   \   'python': ['pyls'],
+"   \   'go': ['go-langserver'],
+"   \   'javascript': ['javascript-typescript-stdio'],
+"   \   'javascript.jsx': ['javascript-typescript-stdio'],
+"   \ }
+"   " skip julia until LanguageServer.jl supports 0.7
+"   " \   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
+"   " \       using LanguageServer;
+"   " \       server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false);
+"   " \       server.runlinter = true;
+"   " \       run(server);
+"   " \   '],
 
-  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-endif
-
-if v:version < 800
-  " syntastic
-  " syntastic recommended beginner settings
-  "set statusline+=%#warningmsg#
-  "set statusline+=%{SyntasticStatuslineFlag()}
-  "set statusline+=%*
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  "let g:syntastic_check_on_open = 1
-  "let g:syntastic_check_on_wq = 0
-endif
+"   nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+"   nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+"   nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+" endif
 
 " integrate rg and ag search.
 " rg for general use, speed, unicode, etc.
@@ -261,16 +249,20 @@ map g# <Plug>(incsearch-nohl-g#)
 
 
 " used by gitgutter
-set updatetime=400
+set updatetime=100
+"seems to fix gitugger (sign display and hunk detetion) on nvim
+if has('nvim')
+    let g:gitgutter_async=0
+endif
 
 " Language-specific again:
 
-let g:neoformat_run_all_formatters = 1
+" let g:neoformat_run_all_formatters = 1
 "let g:neoformat_enabled_javascript = ['prettier'] "prettier-eslint?
-let g:neoformat_enabled_python = ['black', 'isort']
+" let g:neoformat_enabled_python = ['black', 'isort']
 
 " Use goimports on save (.go files)
-let g:go_fmt_command = "goimports"
+" let g:go_fmt_command = "goimports"
 
 " Syntax highlighting
 " let g:go_highlight_operators = 1
