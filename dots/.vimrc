@@ -62,10 +62,6 @@ endif
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" tmux nav
-" C-{h,j,k,l} for split nav & tmux pane nav
-" Plug 'christoomey/vim-tmux-navigator'
-
 " Movement, etc.
 Plug 'haya14busa/incsearch.vim'
 Plug 'tpope/vim-surround'
@@ -140,8 +136,9 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 " Nice colorscheme
 set t_Co=256   " in case not recognized
+" set colorscheme if already installed
 set background=dark
-colorscheme PaperColor
+silent! colorscheme PaperColor
 
 " make current search result differentiable from rest
 " (when using incsearch + hlsearch)
@@ -170,6 +167,12 @@ set expandtab
 set pastetoggle=<F10>
 
 " CONFIGURE PLUGINS:
+
+if !(v:version < 800)
+  let g:ale_linters = {
+  \   'python': ['pyls'],
+  \}
+endif
 
 " if has("job")
 "   " LanguageClient
