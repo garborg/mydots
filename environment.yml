@@ -1,0 +1,14 @@
+name: dev
+channels:
+  - conda-forge
+  - ostrokach-forge
+dependencies: 
+  # tools
+  - vim
+  - tmux=2.7
+  - ripgrep
+  # python
+  - black
+  - isort
+  - flake8
+  - python-language-server

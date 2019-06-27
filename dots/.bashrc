@@ -32,8 +32,8 @@ export ENV="$HOME/.bashrc"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
+# Set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ]; then
   PATH="$HOME/bin:$PATH"
 fi
 
@@ -44,6 +44,11 @@ else
 fi
 export EDITOR="$VISUAL"
 
+# If devtools are installed via miniconda, use them
+CONDA_DIR=${HOME}/.miniconda
+if [ -d "$CONDA_DIR" ]; then
+  export PATH=${CONDA_DIR}/bin:$PATH
+fi
 
 ### Language specific
 
