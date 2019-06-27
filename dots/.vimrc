@@ -24,17 +24,6 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug '~/.fzf' " I have fzf installed with my dotfiles
 Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
 
-" language server protocol. for now using ale.
-" alt: lsp.vim, coc.nvim, ale, laguageclient-neovim
-" (support for renames, go to definition, etc.)
-" language server: https://pinboard.in/u:garborg/tabs/283303/
-" if has("job")
-"   Plug 'autozimu/LanguageClient-neovim', {
-"   \ 'branch': 'next',
-"   \ 'do': 'bash install.sh',
-"   \ }
-" endif
-
 " completion
 " https://pinboard.in/u:garborg/tabs/283297/
 " YouCompleteMe, deoplete.nvim, nvim-completion-manager, completor.vim
@@ -52,11 +41,9 @@ Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
 if !(v:version < 800)
   " ale is async and has capabilities beyond linting
   Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake
+  " alt (formatting) 'sbdchd/neoformat', worp/ale, LanguageClient-neovim, Chiel92/vim-autoformat, vim-codefmt
+  " alt (lsp): lsp.vim, coc.nvim, ale, laguageclient-neovim
 endif
-
-" code formatter
-" https://prettier.io/docs/en/vim.html
-" Plug 'sbdchd/neoformat' "alt: worp/ale, LanguageClient-neovim, Chiel92/vim-autoformat, vim-codefmt
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -102,6 +89,12 @@ call plug#end()
 " support unicode in more environments
 set encoding=utf-8
 
+" don't save unsaved changes.
+" less annoyance after disconnected sessions, etc.
+" some risk of losing unsaved changes, and confusion w/ multiple writers to
+" same file.
+set noswapfile
+
 " manipulate splits without closing random graphical windows
 noremap <leader>w <C-w>
 
@@ -115,7 +108,7 @@ noremap <leader>l <C-w>l
 noremap <leader>g :Rg<space>
 noremap <leader>b :Buffers<CR>
 noremap <leader>f :Files<CR>
-noremap <leader>n :Neoformat<CR>
+noremap <leader>r :ALEFix<CR>
 
 " netrw
 let g:netrw_dirhistmax=0 " don't need the clutter in .vim
@@ -168,62 +161,26 @@ set pastetoggle=<F10>
 
 " CONFIGURE PLUGINS:
 
+"ale
 if !(v:version < 800)
+  nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+  nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
   let g:ale_linters = {
-  \   'python': ['pyls'],
+  \   'python': ['flake8'],
+  \}
+  " \   'python': ['pyls'],
+  let g:ale_fix_on_save = 1
+  let g:ale_fixers = {
+  \   'python': [
+  \       'isort',
+  \       'black',
+  \   ],
   \}
 endif
 
-" if has("job")
-"   " LanguageClient
-"   let g:LanguageClient_autoStart = 1
-"   let g:LanguageClient_serverCommands = {
-"   \   'python': ['pyls'],
-"   \   'go': ['go-langserver'],
-"   \   'javascript': ['javascript-typescript-stdio'],
-"   \   'javascript.jsx': ['javascript-typescript-stdio'],
-"   \ }
-"   " skip julia until LanguageServer.jl supports 0.7
-"   " \   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
-"   " \       using LanguageServer;
-"   " \       server = LanguageServer.LanguageServerInstance(STDIN, STDOUT, false);
-"   " \       server.runlinter = true;
-"   " \       run(server);
-"   " \   '],
-
-"   nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-"   nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-"   nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-" endif
-
-" integrate rg and ag search.
-" rg for general use, speed, unicode, etc.
-" ag for multiline, backrefs, lookaround.
-
-" Augmenting Ag command using fzf#vim#with_preview function
-"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
-"     * For syntax-highlighting, Ruby and any of the following tools are required:
-"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-"       - CodeRay: http://coderay.rubychan.de/
-"       - Rouge: https://github.com/jneen/rouge
-"
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
-
-" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
-
-" To include ignored and hidden files:
+" fzf.vim
+" Search that includes hidden files:
 command! -bang -nargs=* Rgu
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always -uu '.shellescape(<q-args>), 1,
@@ -250,8 +207,7 @@ map g# <Plug>(incsearch-nohl-g#)
 " many more incsearch.vim options
 "https://github.com/haya14busa/incsearch.vim
 
-
-" used by gitgutter
+" gitgutter
 set updatetime=100
 "seems to fix gitugger (sign display and hunk detetion) on nvim
 if has('nvim')
@@ -259,10 +215,6 @@ if has('nvim')
 endif
 
 " Language-specific again:
-
-" let g:neoformat_run_all_formatters = 1
-"let g:neoformat_enabled_javascript = ['prettier'] "prettier-eslint?
-" let g:neoformat_enabled_python = ['black', 'isort']
 
 " Use goimports on save (.go files)
 " let g:go_fmt_command = "goimports"
