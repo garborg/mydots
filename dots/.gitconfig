@@ -29,6 +29,7 @@
 	ahead-branches = !git branch -vv | cut -c 3- | awk '/^[^[]+\\[[^]]+:[^]]*ahead/ { print $1 }'
 	m = merge --ff-only
 	pr = "!f() { git fetch origin refs/pull/$1/head:$2; git checkout $2; }; f" # pass args [PR #] & [new branch name], and it fetches, creates, checks out
+	publish = !git push -u origin $(git symbolic-ref --short HEAD)
 	s = status
 	unstage = reset HEAD --
 	untrack = rm --cache --
