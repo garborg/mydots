@@ -1,11 +1,10 @@
 name: dev
 channels:
   - conda-forge
-  - ostrokach-forge
 dependencies: 
   # tools
   - vim
-  - tmux=2.7
+  - tmux
   - ripgrep
   # python
   - black
