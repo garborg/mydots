@@ -3,11 +3,12 @@ channels:
   - conda-forge
 dependencies: 
   # tools
-  - vim
-  - tmux
+  - git
   - ripgrep
+  - tmux
+  - vim
   # python
   - black
-  - isort
   - flake8
+  - isort
   - python-language-server
