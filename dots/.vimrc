@@ -165,9 +165,10 @@ set pastetoggle=<F10>
 if !(v:version < 800)
   nmap <silent> <C-k> <Plug>(ale_previous_wrap)
   nmap <silent> <C-j> <Plug>(ale_next_wrap)
+  nmap gd :ALEGoToDefinition<CR>
 
   let g:ale_linters = {
-  \   'python': ['flake8'],
+  \   'python': ['flake8', 'pyls'],
   \}
   " \   'python': ['pyls'],
   let g:ale_fix_on_save = 1
