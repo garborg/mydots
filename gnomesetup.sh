@@ -8,7 +8,7 @@ set -e
 # if [ ! $(command -v dconf) ]; then
 #   apt-get install -y dconf
 # fi
-if [ $(command -v dconf) ]; then
+if [ "$(command -v dconf)" ]; then
   dconf write /org/gnome/desktop/input-sources/xkb-options "['ctrl:nocaps']"
 else
   # pi is and doesn't have dconf, but I use it via ssh -- no keymapping needed
