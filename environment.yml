@@ -3,10 +3,10 @@ channels:
   - conda-forge
 dependencies: 
   # tools
+  - fzf
   - git
   - ripgrep
   - tmux
-  - vim
   # python
   - black
   - flake8
