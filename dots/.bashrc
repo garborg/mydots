@@ -123,16 +123,26 @@ fi
 export GOPATH=$HOME
 
 #javascript
-export NVM_DIR="/home/sean/.nvm"
-if [ -f "$NVM_DIR/nvm.sh" ]; then
-  . "$NVM_DIR/nvm.sh"  # This loads nvm
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # julia
 # Swap until [#28781](https://github.com/JuliaLang/julia/issues/28781) is resolved
 # alias j='julia --project'
 alias j='JULIA_PROJECT="@." julia'
 
+# python
+
+# if python is version 3
+if command -v python > /dev/null 2>&1 && python -c 'import sys; sys.exit(sys.version_info[0] != 3)'; then
+  if ! command -v python3 > /dev/null 2>&1; then
+    alias python3='python'
+  fi
+  if ! command -v pip3 > /dev/null 2>&1; then
+    alias pip3='pip'
+  fi
+fi
 
 ###
 ### End of non-bash settings

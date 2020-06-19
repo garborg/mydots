@@ -42,6 +42,9 @@
       }
     ],
     "vim.useSystemClipboard": true,
+    "terminal.integrated.inheritEnv": false,
+    "explorer.confirmDelete": false,
+    "timeline.pageSize": 0,
     // see https://github.com/VSCodeVim/Vim/#windows
     // and occurrences of 'vim.use<C' within https://github.com/VSCodeVim/Vim/blob/master/package.json
     // and supported operation here https://github.com/VSCodeVim/Vim/blob/master/ROADMAP.md
@@ -50,4 +53,12 @@
     //   "<C-a>": false,
     //   "<C-f>": false
     // }
+    "markdownlint.config": {
+      "MD007": {"indent": 4},
+      "MD013": {
+        "line_length": 92,
+        "code_block_line_length": 92,
+      },
+      "MD024": {"siblings_only": true},
+  },
 }
