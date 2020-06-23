@@ -21,7 +21,7 @@ Plug 'tpope/vim-sensible'
 Plug 'NLKNguyen/papercolor-theme'
 
 " navigation outside of active file
-Plug '~/.fzf' " I have fzf installed with my dotfiles
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
 
 " completion
