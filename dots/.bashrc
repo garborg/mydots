@@ -32,9 +32,27 @@ export ENV="$HOME/.bashrc"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# Set PATH so it includes user's private bin if it exists
+add_to_PATH () {
+  if ! echo "$PATH" | /bin/grep -Eq "(^|:)$1($|:)" ; then
+    if [ "$2" = "after" ] ; then
+      PATH="$PATH:$1"
+    else
+      PATH="$1:$PATH"
+    fi
+  fi
+}
+
+# Set PATH so it includes user's private bin(s) if found
+if [ -d "$HOME/.local/bin" ]; then
+  add_to_PATH "$HOME/.local/bin"
+fi
 if [ -d "$HOME/bin" ]; then
-  PATH="$HOME/bin:$PATH"
+  add_to_PATH "$HOME/bin"
+fi
+# If devtools are installed via miniconda, use them
+CONDA_DIR="$HOME/.miniconda"
+if [ -d "$CONDA_DIR/bin" ]; then
+  add_to_PATH "$CONDA_DIR/bin"
 fi
 
 if command -v nvim > /dev/null 2>&1; then
@@ -44,21 +62,15 @@ else
 fi
 export EDITOR="$VISUAL"
 
-# If devtools are installed via miniconda, use them
-CONDA_DIR=${HOME}/.miniconda
-if [ -d "$CONDA_DIR" ]; then
-  export PATH=${CONDA_DIR}/bin:$PATH
-fi
-
 ### Language specific
 
 # go
-PATH=$PATH:/usr/local/go/bin
+add_to_PATH "/usr/local/go/bin" after
 export GOPATH=$HOME
 
 # rust
 # info suggested: PATH="$HOME/.cargo/bin:$PATH"
-PATH="$PATH:$HOME/.cargo/bin"
+add_to_PATH "$HOME/.cargo/bin" after
 
 
 ###
@@ -225,8 +237,15 @@ export PS1="$bold┌$retval─$PS1\n└─\\\$$unbold$reset "
 
 ## Utilities
 
-if [ -f "$HOME/.fzf.bash" ]; then
-  . ~/.fzf.bash
+FZF_SHELL="$CONDA_DIR/share/fzf/shell"
+if [ -d "$FZF_SHELL" ]; then
+  # Auto-completion
+  # ---------------
+  . "$FZF_SHELL/completion.bash"
+
+  # Key bindings
+  # ------------
+  . "$FZF_SHELL/key-bindings.bash"
 
   # sort history matches by recency
   export FZF_CTRL_R_OPTS='--sort'
