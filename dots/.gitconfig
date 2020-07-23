@@ -13,7 +13,6 @@
 	# alternative: https://github.com/so-fancy/diff-so-fancy
 	pager = ~/.config/git/diff-highlight | less
 [diff]
-	# colorMoved = dimmed_zebra
 	indentHeuristic = true # use git 2.17+ behavior on 2.11-2.16
 [alias]
 	ck = checkout
