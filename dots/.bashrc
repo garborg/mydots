@@ -68,10 +68,6 @@ export EDITOR="$VISUAL"
 add_to_PATH "/usr/local/go/bin" after
 export GOPATH=$HOME
 
-# rust
-# info suggested: PATH="$HOME/.cargo/bin:$PATH"
-add_to_PATH "$HOME/.cargo/bin" after
-
 
 ###
 ### End of non-interactive settings
@@ -85,20 +81,19 @@ esac
 
 ## General
 
+
+HISTSIZE=5000
+
 # reset text effects to recover on login from inconsistent states
 # e.g. on reconnect after disconnect with client that doesn't reset colors in PS1
 # TODO: consider tput init/reset/clear instead
 tput sgr0
-
-HISTSIZE=5000
-
 HOSTNAME="$(hostname)"
 export PS1='$USER@$HOSTNAME:$PWD/\$ '
 
 
 ## Utilities
 
-# The ls aliases from .bashrc.ubuntu
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -173,17 +168,26 @@ if [ -f "/etc/bashrc" ]; then
   . "/etc/bashrc"
 fi
 
-# Keep ubuntu's default .bashrc as a base
-# Untouched because I want to diff against new versions,
-# but don't know what repo it lives in to vendor it.
-if [ -f "$HOME/.bashrc.ubuntu" ]; then
-  . "$HOME/.bashrc.ubuntu"
-fi
-
 # keep more history
 HISTSIZE=5000
 HISTFILESIZE=10000
+HISTCONTROL=ignoredups
 
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# TODO: PS1 coloring can be a little buggy over ssh? simplify if possible
 
 ## Build ps1:
 
