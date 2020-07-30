@@ -2,7 +2,7 @@
 
 set -e
 
-. ./basicsetup.sh
+. ./setup-linux.sh
 
 # rasbian missing dconf, but xkb-options ctrl:nocaps not doing anything there anyway
 # if [ ! $(command -v dconf) ]; then

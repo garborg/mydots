@@ -33,7 +33,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 add_to_PATH () {
-  if ! echo "$PATH" | /bin/grep -Eq "(^|:)$1($|:)" ; then
+  if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)" ; then
     if [ "$2" = "after" ] ; then
       PATH="$PATH:$1"
     else
@@ -93,6 +93,20 @@ export PS1='$USER@$HOSTNAME:$PWD/\$ '
 
 
 ## Utilities
+
+# set display colors by filetype
+# if command -v dircolors > /dev/null 2>&1; then
+#   eval $(dircolors)
+# elif command -v gdircolors > /dev/null 2>&1; then
+#   eval $(gdircolors)
+# fi
+
+# Use gnu ls on macos if available
+if command -v gls > /dev/null 2>&1; then
+  alias ls='gls --color=auto'
+else
+  alias ls='ls --color=auto'
+fi
 
 alias ll='ls -alF'
 alias la='ls -A'
@@ -176,6 +190,7 @@ HISTCONTROL=ignoredups
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+# TODO: handle brew-provided bash completion
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -187,7 +202,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# TODO: PS1 coloring can be a little buggy over ssh? simplify if possible
 
 ## Build ps1:
 
@@ -197,7 +211,7 @@ config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
 # Coloration escapes
 reset='\[\033[0m\]'
 bold='\[\033[1m\]'
-unbold='\[\033[21m\]'
+# unbold='\[\033[22m\]'
 fgdefault='\[\033[39m\]'
 fgred='\[\033[31m\]'
 fgcyan='\[\033[36m\]'
@@ -233,14 +247,14 @@ PS1="\u@\h:$stripe\w$unstripe$PS1"
 PS1="$PS1\`if [ -n \"\$(jobs -p)\" ]; then echo \" $stripe[\\j+]$unstripe\"; fi\`"
 
 # Status code of previous command if not success
-retval="\`RETVAL=\$?; [ \$RETVAL -ne 0 ] && echo \"$fgred^^\$RETVAL$fgdefault\"\`"
+retval="\`RETVAL=\$?; [ \$RETVAL -ne 0 ] && echo \"$bold$fgred^^\$RETVAL$reset\"\`"
 
-# Flip background/foreground, add prompt line with prepended status code
-export PS1="$bold┌$retval─$PS1\n└─\\\$$unbold$reset "
+# Finish prompt line with prepended status code
+export PS1="┌${retval}─$PS1\n└─\\\$ "
 
 
 ## Utilities
-
+# TODO: handle the brew case
 FZF_SHELL="$CONDA_DIR/share/fzf/shell"
 if [ -d "$FZF_SHELL" ]; then
   # Auto-completion

@@ -2,6 +2,7 @@
 
 set -e
 
-. ./basicsetup.sh
+. ./setup-base.sh
+./install-brew.sh
 
 git config credential.helper osxkeychain

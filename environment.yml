@@ -7,8 +7,3 @@ dependencies:
   - git
   - ripgrep
   - tmux
-  # python
-  - black
-  - flake8
-  - isort
-  - python-language-server
