@@ -94,12 +94,12 @@ export PS1='$USER@$HOSTNAME:$PWD/\$ '
 
 ## Utilities
 
-# set display colors by filetype
-# if command -v dircolors > /dev/null 2>&1; then
-#   eval $(dircolors)
-# elif command -v gdircolors > /dev/null 2>&1; then
-#   eval $(gdircolors)
-# fi
+# Set display colors by filetype
+if command -v dircolors > /dev/null 2>&1; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+elif command -v gdircolors > /dev/null 2>&1; then
+  test -r ~/.dircolors && eval "$(gdircolors -b ~/.dircolors)" || eval "$(gdircolors -b)"
+fi
 
 # Use gnu ls on macos if available
 if command -v gls > /dev/null 2>&1; then
@@ -115,12 +115,15 @@ alias l='ls -CF'
 # color osx/bsd ls like ubuntu/gnu ls
 export CLICOLOR=1
 
-# color osx/bsd grep like ubuntu/gnu grep
-# (Oft-recommended alternative of aliasing with --color=auto is not reliable,
-#  e.g when piping via xargs)
-if command -v grep > /dev/null 2>&1 && grep --version | grep -q "BSD"; then
-  # deprecated in GNU grep 2.x
-  export GREP_OPTIONS="--color=auto"
+# Grep color
+if command -v grep > /dev/null 2>&1; then
+  if grep --version | grep -q "BSD"; then
+    # GREP_OPTIONS is more reliable than --color=auto, e.g when piping via xargs
+    export GREP_OPTIONS="--color=auto"
+  else
+    # But GREP_OPTIONS was deprecated in GNU grep 2.x+
+    alias grep='grep --color=auto'
+  fi
 fi
 
 if command -v nvim > /dev/null 2>&1; then
