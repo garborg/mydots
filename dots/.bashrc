@@ -104,8 +104,11 @@ fi
 # Use gnu ls on macos if available
 if command -v gls > /dev/null 2>&1; then
   alias ls='gls --color=auto'
-else
+# Use gnu ls color options if understood
+elif ls --color -d . >/dev/null 2>&1; then
   alias ls='ls --color=auto'
+# elif ls -G -d . >/dev/null 2>&1; then
+#   alias ls='ls -G', etc.
 fi
 
 alias ll='ls -alF'
@@ -278,3 +281,5 @@ fi
 if [ -f "$NVM_DIR/bash_completion" ]; then
   . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
