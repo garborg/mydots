@@ -87,7 +87,8 @@ HISTSIZE=5000
 # reset text effects to recover on login from inconsistent states
 # e.g. on reconnect after disconnect with client that doesn't reset colors in PS1
 # TODO: consider tput init/reset/clear instead
-tput sgr0
+# N.B. disabled because causing issues with powerlevel10k instant prompt
+# tput sgr0
 HOSTNAME="$(hostname)"
 export PS1='$USER@$HOSTNAME:$PWD/\$ '
 
