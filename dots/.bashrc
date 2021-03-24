@@ -144,6 +144,9 @@ if command -v tmux > /dev/null 2>&1; then
   alias tmux='tmux -2'
 fi
 
+if command -v fd > /dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
+fi
 
 ## Language specific
 

@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies: 
   # tools
+  - fd-find
   - fzf
   - git
   - ripgrep
