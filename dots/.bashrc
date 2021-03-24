@@ -144,9 +144,11 @@ if command -v tmux > /dev/null 2>&1; then
   alias tmux='tmux -2'
 fi
 
+# fzf
 if command -v fd > /dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
 fi
+export FZF_CTRL_R_OPTS='--sort'
 
 ## Language specific
 
@@ -264,26 +266,12 @@ export PS1="┌${retval}─$PS1\n└─\\\$ "
 
 
 ## Utilities
-# TODO: handle the brew case
-FZF_SHELL="$CONDA_DIR/share/fzf/shell"
-if [ -d "$FZF_SHELL" ]; then
-  # Auto-completion
-  # ---------------
-  . "$FZF_SHELL/completion.bash"
 
-  # Key bindings
-  # ------------
-  . "$FZF_SHELL/key-bindings.bash"
-
-  # sort history matches by recency
-  export FZF_CTRL_R_OPTS='--sort'
-fi
-
+# fzf
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 
 ## Language specific
 
 if [ -f "$NVM_DIR/bash_completion" ]; then
   . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

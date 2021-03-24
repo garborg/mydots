@@ -9,3 +9,5 @@ if ! command -v brew > /dev/null 2>&1; then
 fi
 
 brew install fd fzf git ripgrep tmux
+
+/usr/local/opt/fzf/install --xdg --key-bindings --completion --update-rc
