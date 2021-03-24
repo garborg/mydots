@@ -10,4 +10,8 @@ fi
 
 brew install fd fzf git ripgrep tmux
 
+# fzf
+# --xdg: dotfile location respects $XDG_CONFIG
+# --key-bindings, --completion: activate them
+# --update-rc: no-op while lines in .rc files are current, keep on in case of changes
 /usr/local/opt/fzf/install --xdg --key-bindings --completion --update-rc

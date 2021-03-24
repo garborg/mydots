@@ -81,6 +81,9 @@ plugins=(git)
 # see list of plugins: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 # e.g. direnv
 
+# tell oh-my-zsh to read completions from shared dirs even if group or other have write permission
+ZSH_DISABLE_COMPFIX=true
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
