@@ -3,8 +3,6 @@
 	name = Sean Garborg
 [github]
 	user = garborg
-[push]
-	default = simple # use git 2.x behavior even on 1.x
 [color]
 	ui = auto
 [color "diff"]
@@ -12,8 +10,6 @@
 [core]
 	# alternative: https://github.com/so-fancy/diff-so-fancy
 	pager = ~/.config/git/diff-highlight | less
-[diff]
-	indentHeuristic = true # use git 2.17+ behavior on 2.11-2.16
 [alias]
 	ck = checkout
 	d = diff -D -M
@@ -37,4 +33,3 @@
 	helper = cache --timeout 3600 # = osxkeychain on osx
 [merge]
 	tool = vimdiff
-	defaultToUpstream = true # use git 2.x behavior even on 1.x
