@@ -150,15 +150,15 @@ if command -v fd > /dev/null 2>&1; then
 fi
 export FZF_CTRL_R_OPTS='--sort'
 
+# version manager
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  . "$HOME/.asdf/asdf.sh"
+fi
+
 ## Language specific
 
 # go
 export GOPATH=$HOME
-
-#javascript
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # julia
 # Swap until [#28781](https://github.com/JuliaLang/julia/issues/28781) is resolved
