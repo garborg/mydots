@@ -2,7 +2,7 @@ name: dev
 channels:
   - conda-forge
 dependencies: 
-  # tools
+  - direnv
   - fd-find
   - fzf
   - git

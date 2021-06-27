@@ -14,4 +14,4 @@ fi
 
 . "$HOME/.bashrc"
 
-conda env update --quiet -f ./environment.yml -n base
+conda env update --quiet -f ./conda-environment.yml -n base

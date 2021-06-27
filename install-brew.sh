@@ -17,12 +17,6 @@ brew install direnv fd fzf git gnupg ripgrep tmux
 # --update-rc: no-op while lines in .rc files are current, keep on in case of changes
 $(brew --prefix fzf)/install --xdg --key-bindings --completion --update-rc
 
-# asdf (homebrew install is problematic: https://github.com/asdf-vm/asdf/issues/785)
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-cd ~/.asdf && git checkout "$(git describe --abbrev=0 --tags)"
-asdf plugin-add nodejs
-asdf plugin-add julia
-
 # apps:
 # chrome, firefox, notion, etc.
 # Code:
