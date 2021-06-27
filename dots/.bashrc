@@ -267,11 +267,11 @@ export PS1="┌${retval}─$PS1\n└─\\\$ "
 
 ## Utilities
 
+# direnv
+
+if command -v direnv > /dev/null 2>&1; then
+  eval "$(direnv hook bash)"
+fi
+
 # fzf
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
-
-## Language specific
-
-if [ -f "$NVM_DIR/bash_completion" ]; then
-  . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi

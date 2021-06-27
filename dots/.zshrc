@@ -80,10 +80,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     asdf
+    direnv
     git
 )
 # see list of plugins: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
-# e.g. direnv
+# e.g. fd, gh, keychain, ripgrep, rsync, ssh-agent, tmux, vi-mode, vim-interaction
+# tried:
+# fzf - slower
 
 # tell oh-my-zsh to read completions from shared dirs even if group or other have write permission
 ZSH_DISABLE_COMPFIX=true
@@ -120,11 +123,6 @@ source $HOME/.bashrc
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# direnv
-if command -v direnv > /dev/null 2>&1; then
-  eval "$(direnv hook zsh)"
-fi
 
 # fzf
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
