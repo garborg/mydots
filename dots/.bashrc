@@ -22,7 +22,7 @@
 # Make sure non-bash non-login shells get non-bash chunks of config
 export ENV="$HOME/.bashrc"
 
-source $HOME/.allrc.sh
+source "${XDG_CONFIG_HOME:-$HOME/.config}"/allrc.sh
 
 
 ###
