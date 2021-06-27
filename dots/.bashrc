@@ -17,56 +17,12 @@
 # - `bash --posix` has `$BASH` && `shopt -oq posix`
 
 
-###
-### Shared by all (bash/sh, interactive/non-interactive, etc.)
-###
-
-
-### General
-
 # ENV is used by sh for interactive sessions
 # .profile is used by sh and bash --posix for login sessions
 # Make sure non-bash non-login shells get non-bash chunks of config
 export ENV="$HOME/.bashrc"
 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-add_to_PATH () {
-  if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)" ; then
-    if [ "$2" = "after" ] ; then
-      PATH="$PATH:$1"
-    else
-      PATH="$1:$PATH"
-    fi
-  fi
-}
-
-# Set PATH so it includes user's private bin(s) if found
-if [ -d "$HOME/.local/bin" ]; then
-  add_to_PATH "$HOME/.local/bin"
-fi
-if [ -d "$HOME/bin" ]; then
-  add_to_PATH "$HOME/bin"
-fi
-# If devtools are installed via miniconda, use them
-CONDA_DIR="$HOME/.miniconda"
-if [ -d "$CONDA_DIR/bin" ]; then
-  add_to_PATH "$CONDA_DIR/bin"
-fi
-
-if command -v nvim > /dev/null 2>&1; then
-  export VISUAL=nvim
-else
-  export VISUAL=vim
-fi
-export EDITOR="$VISUAL"
-
-### Language specific
-
-# go
-add_to_PATH "/usr/local/go/bin" after
-export GOPATH=$HOME
+source $HOME/.allrc.sh
 
 
 ###
@@ -78,104 +34,11 @@ case $- in
     *) return;;
 esac
 
-
 ## General
 
-
-HISTSIZE=5000
-
-# reset text effects to recover on login from inconsistent states
-# e.g. on reconnect after disconnect with client that doesn't reset colors in PS1
-# TODO: consider tput init/reset/clear instead
-# N.B. disabled because causing issues with powerlevel10k instant prompt
-# tput sgr0
 HOSTNAME="$(hostname)"
 export PS1='$USER@$HOSTNAME:$PWD/\$ '
 
-
-## Utilities
-
-# Set display colors by filetype
-if command -v dircolors > /dev/null 2>&1; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-elif command -v gdircolors > /dev/null 2>&1; then
-  test -r ~/.dircolors && eval "$(gdircolors -b ~/.dircolors)" || eval "$(gdircolors -b)"
-fi
-
-# Use gnu ls on macos if available
-if command -v gls > /dev/null 2>&1; then
-  alias ls='gls --color=auto'
-# Use gnu ls color options if understood
-elif ls --color -d . >/dev/null 2>&1; then
-  alias ls='ls --color=auto'
-# elif ls -G -d . >/dev/null 2>&1; then
-#   alias ls='ls -G', etc.
-fi
-
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# color osx/bsd ls like ubuntu/gnu ls
-export CLICOLOR=1
-
-# Grep color
-if command -v grep > /dev/null 2>&1; then
-  if grep --version | grep -q "BSD"; then
-    # GREP_OPTIONS is more reliable than --color=auto, e.g when piping via xargs
-    export GREP_OPTIONS="--color=auto"
-  else
-    # But GREP_OPTIONS was deprecated in GNU grep 2.x+
-    alias grep='grep --color=auto'
-  fi
-fi
-
-if command -v nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-fi
-
-if command -v vim > /dev/null 2>&1; then
-  # make vi point at local vim if installed
-  alias vi='vim'
-fi
-
-if command -v tmux > /dev/null 2>&1; then
-  # add flag for 256 color support
-  alias tmux='tmux -2'
-fi
-
-# fzf
-if command -v fd > /dev/null 2>&1; then
-  export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
-fi
-export FZF_CTRL_R_OPTS='--sort'
-
-# version manager
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-  . "$HOME/.asdf/asdf.sh"
-fi
-
-## Language specific
-
-# go
-export GOPATH=$HOME
-
-# julia
-# Swap until [#28781](https://github.com/JuliaLang/julia/issues/28781) is resolved
-# alias j='julia --project'
-alias j='JULIA_PROJECT="@." julia'
-
-# python
-
-# if python is version 3
-if command -v python > /dev/null 2>&1 && python -c 'import sys; sys.exit(sys.version_info[0] != 3)'; then
-  if ! command -v python3 > /dev/null 2>&1; then
-    alias python3='python'
-  fi
-  if ! command -v pip3 > /dev/null 2>&1; then
-    alias pip3='pip'
-  fi
-fi
 
 ###
 ### End of non-bash settings
