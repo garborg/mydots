@@ -9,3 +9,9 @@ set -e
 ./install-omz.sh
 
 git config credential.helper osxkeychain
+
+# apps:
+# chrome, firefox, notion, etc.
+# Code:
+# - from: https://code.visualstudio.com/download
+# - extensions: Julia, Vim

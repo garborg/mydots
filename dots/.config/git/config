@@ -29,7 +29,5 @@
 	unstage = reset HEAD --
 	untrack = rm --cache --
 	wipe = "!f() { rev=$(git rev-parse ${1-HEAD}); git add -A && git commit --allow-empty -qm 'WIPE SAVEPOINT' && git reset $rev --hard; }; f" # diff vs reset --hard HEAD?
-[credential]
-	helper = cache --timeout 3600 # = osxkeychain on osx
 [merge]
 	tool = vimdiff

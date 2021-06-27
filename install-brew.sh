@@ -16,10 +16,3 @@ brew install direnv fd fzf git gnupg ripgrep tmux
 # --key-bindings, --completion: activate them
 # --update-rc: no-op while lines in .rc files are current, keep on in case of changes
 $(brew --prefix fzf)/install --xdg --key-bindings --completion --update-rc
-
-# apps:
-# chrome, firefox, notion, etc.
-# Code:
-# - from: https://code.visualstudio.com/download
-# - extensions: Julia, Vim
-
