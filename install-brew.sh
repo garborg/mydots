@@ -9,7 +9,7 @@ if ! command -v brew > /dev/null 2>&1; then
 fi
 
 # utilities
-brew install direnv fd fzf git gnupg ripgrep tmux
+brew install direnv fd fzf git git-delta gnupg ripgrep tmux
 
 # add fzf integrations
 # --xdg: dotfile location respects $XDG_CONFIG

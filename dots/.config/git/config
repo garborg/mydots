@@ -5,11 +5,6 @@
 	user = garborg
 [color]
 	ui = auto
-[color "diff"]
-	meta = yellow bold
-[core]
-	# alternative: https://github.com/so-fancy/diff-so-fancy
-	pager = ~/.config/git/diff-highlight | less
 [alias]
 	ck = checkout
 	d = diff -D -M
