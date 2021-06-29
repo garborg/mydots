@@ -38,7 +38,9 @@ Plug 'junegunn/fzf.vim' " alt: 'Shougo/denite.nvim' 'lotabout/skim.vim'
 " endif
 
 " linter
-if !(v:version < 800)
+if has('nvim')
+  Plug 'neovim/nvim-lspconfig'
+elseif !(v:version < 800) 
   " ale is async and has capabilities beyond linting
   Plug 'w0rp/ale' " alt: https://github.com/neomake/neomake
   " alt (formatting) 'sbdchd/neoformat', worp/ale, LanguageClient-neovim, Chiel92/vim-autoformat, vim-codefmt
@@ -160,9 +162,17 @@ set expandtab
 set pastetoggle=<F10>
 
 " CONFIGURE PLUGINS:
+"
+if has("nvim")
+  lua << EOF
+require'lspconfig'.gopls.setup{}
+require'lspconfig'.julials.setup{}
+require'lspconfig'.pyright.setup{}
+require'lspconfig'.tsserver.setup{}
+EOF
+endif
 
-"ale
-if !(v:version < 800)
+if !has("nvim") && !(v:version < 800)
   nmap <silent> <C-k> <Plug>(ale_previous_wrap)
   nmap <silent> <C-j> <Plug>(ale_next_wrap)
   nmap gd :ALEGoToDefinition<CR>
