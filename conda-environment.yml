@@ -4,7 +4,6 @@ channels:
 dependencies: 
   - direnv
   - fd-find
-  - fzf
   - git
   - ripgrep
   - tmux

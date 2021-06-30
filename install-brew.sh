@@ -9,10 +9,4 @@ if ! command -v brew > /dev/null 2>&1; then
 fi
 
 # utilities
-brew install direnv fd fzf git git-delta gnupg ripgrep tmux
-
-# add fzf integrations
-# --xdg: dotfile location respects $XDG_CONFIG
-# --key-bindings, --completion: activate them
-# --update-rc: no-op while lines in .rc files are current, keep on in case of changes
-$(brew --prefix fzf)/install --xdg --key-bindings --completion --update-rc
+brew install direnv fd git git-delta gnupg ripgrep tmux

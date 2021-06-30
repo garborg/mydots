@@ -77,11 +77,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
 ## Build ps1:
-
-# set PS1
-config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 # Coloration escapes
 reset='\[\033[0m\]'
@@ -96,8 +92,9 @@ fgcyan='\[\033[36m\]'
 stripe="$fgcyan"
 unstripe="$fgdefault"
 
-if [ -f "$config_dir/git/git-prompt.sh" ]; then
-  . "$config_dir/git/git-prompt.sh"
+gp_path="${XDG_CONFIG_HOME:-$HOME/.config}/git/git-prompt.sh"
+if [ -f "$gp_path" ]; then
+  . "$gp_path"
 
   # Build the git section of the ps1
   # shellcheck disable=SC2034
@@ -130,11 +127,19 @@ export PS1="┌${retval}─$PS1\n└─\\\$ "
 
 ## Utilities
 
+# asdf
+
+if [ -d $HOME/.asdf ]; then
+  . $HOME/.asdf/asdf.sh
+  . $HOME/.asdf/completions/asdf.bash
+fi
+
+# fzf
+
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+
 # direnv
 
 if command -v direnv > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
-
-# fzf
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
