@@ -26,7 +26,7 @@ if [ -n "$SSH_CLIENT" ]  || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
   is_ssh=true
 fi
 
-if [ -n "BASH_VERSION" ] && ! shopt -oq posix; then
+if [ -n "$BASH_VERSION" ] && ! shopt -oq posix; then
   is_posix=false
 else
   is_posix=true
