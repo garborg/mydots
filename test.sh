@@ -46,4 +46,3 @@ if tty -s; then
 else
   echo "terminal: false"
 fi
-

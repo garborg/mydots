@@ -30,5 +30,5 @@ indent_style = tab
 
 [*.go]
 indent_style = tab
-insert_final_newline = false
-trim_trailing_whitespace = false # 'go-vim' doesn't like competition
+# insert_final_newline = false # 'go-vim' doesn't like competition
+# trim_trailing_whitespace = false # 'go-vim' doesn't like competition
