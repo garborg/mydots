@@ -21,7 +21,6 @@
     },
     "vim.changeWordIncludesWhitespace": true,
     "vim.easymotion": true,
-    "vim.easymotionMarkerFontSize": "16",
     "vim.incsearch": true,
     "vim.hlsearch": true,
     "vim.leader": "<space>",
@@ -60,5 +59,8 @@
         "code_block_line_length": 92,
       },
       "MD024": {"siblings_only": true},
+  },
+  "files.watcherExclude": {
+    "**/.direnv/**": true
   },
 }
