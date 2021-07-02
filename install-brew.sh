@@ -9,4 +9,4 @@ if ! command -v brew > /dev/null 2>&1; then
 fi
 
 # utilities
-brew install direnv fd git git-delta gnupg ripgrep tmux
+brew install coreutils direnv fd git git-delta gnupg ripgrep tmux

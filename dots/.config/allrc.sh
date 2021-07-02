@@ -70,16 +70,14 @@ if command -v gls > /dev/null 2>&1; then
 # Use gnu ls color options if understood
 elif ls --color -d . >/dev/null 2>&1; then
   alias ls='ls --color=auto'
-# elif ls -G -d . >/dev/null 2>&1; then
-#   alias ls='ls -G', etc.
 fi
 
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# color osx/bsd ls like ubuntu/gnu ls
+# color osx/bsd ls
 export CLICOLOR=1
+
+alias ll='ls -al'
+alias la='ls -AF'
+alias l='ls -CF'
 
 # Grep color
 if command -v grep > /dev/null 2>&1; then
