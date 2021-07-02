@@ -44,4 +44,12 @@ Session.vim
 # auto-generated tag files
 tags
 
+# Direnv
 
+.direnv/
+.envrc
+
+# VSCode
+
+# don't check in e.g. what dev virtual env path user set up
+.vscode/
