@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -e
 
@@ -66,14 +66,21 @@ linkDir() {
     local tbn
     tbn="$(basename "$tpath")"
     local lpath="$ldir/$tbn"
-    if [ "$tbn" = "." ] || [ "$tbn" = ".." ] || [ "$tbn" = "*" ]; then
+    if [ "$tbn" = "." ] || [ "$tbn" = ".." ] || [ "$tbn" = "*" ] || [ "$tbn" = "._linkcontents" ]; then
       continue
     fi
     if [ -d "$tpath" ]; then
-      # TODO: iff under $HOME
-      if [ "$tbn" = ".config" ] && [ -n "$XDG_CONFIG_HOME" ]; then
-        echo "Installing config under \$XDG_CONFIG_HOME: '$XDG_CONFIG_HOME'"
-        local lpath="$XDG_CONFIG_HOME"
+      # for top-level calls only
+      if [ "$ldir" = "$HOME" ]; then
+        if [ "$tbn" = ".config" ] && [ -n "$XDG_CONFIG_HOME" ]; then
+          echo "Installing config under \$XDG_CONFIG_HOME: '$XDG_CONFIG_HOME'"
+          local lpath="$XDG_CONFIG_HOME"
+        fi
+      fi
+
+      # change Code path for macos
+      if [[ "$tpath" == */.config/Code ]] && [ -d "$HOME/Library" ]; then
+        local lpath="$HOME/Library/Application Support/Code"
       fi
 
       if [ -f "$tpath/._linkcontents" ]; then
