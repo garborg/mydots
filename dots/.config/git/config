@@ -6,7 +6,7 @@
 [color]
 	ui = auto
 [alias]
-	ck = checkout
+	ck = "! f() { echo 'try *switch* or *reset*'; return 1; }; f"
 	d = diff -D -M
 	dc = diff -D -M --cached
 	ds = diff -D -M --stat -r
