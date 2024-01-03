@@ -127,13 +127,6 @@ export PS1="┌${retval}─$PS1\n└─\\\$ "
 
 ## Utilities
 
-# asdf
-
-if [ -d $HOME/.asdf ]; then
-  . $HOME/.asdf/asdf.sh
-  . $HOME/.asdf/completions/asdf.bash
-fi
-
 # fzf
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
@@ -143,3 +136,24 @@ fi
 if command -v direnv > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+case ":$PATH:" in
+    *:/Users/sean/.juliaup/bin:*)
+        ;;
+
+    *)
+        export PATH=/Users/sean/.juliaup/bin${PATH:+:${PATH}}
+        ;;
+esac
+
+# <<< juliaup initialize <<<
+
+# nvm
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

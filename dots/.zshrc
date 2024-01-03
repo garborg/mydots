@@ -79,9 +79,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    asdf
     direnv
     git
+    nvm
 )
 # see list of plugins: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 # e.g. fd, gh, keychain, ripgrep, rsync, ssh-agent, tmux, vi-mode, vim-interaction
@@ -126,3 +126,12 @@ source "${XDG_CONFIG_HOME:-$HOME/.config}"/allrc.sh
 
 # fzf
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+path=('/Users/sean/.juliaup/bin' $path)
+export PATH
+
+# <<< juliaup initialize <<<
