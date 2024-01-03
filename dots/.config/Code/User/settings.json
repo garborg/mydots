@@ -63,4 +63,9 @@
   "files.watcherExclude": {
     "**/.direnv/**": true
   },
+  "terminal.integrated.commandsToSkipShell": [
+    "language-julia.interrupt"
+  ],
+  "julia.symbolCacheDownload": true,
+  "julia.enableCrashReporter": false,
 }
