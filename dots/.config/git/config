@@ -28,3 +28,15 @@
 	tool = vimdiff
 [advice]
 	detachedHead = false
+[credential]
+	helper = osxkeychain
+[delta]
+	syntax-theme = zenburn
+	navigate = true
+[pager]
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
+[interactive]
+	diffFilter = delta --color-only
