@@ -1,71 +1,70 @@
 {
-    "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false,
-    "julia.enableTelemetry": true,
-    "window.zoomLevel": 1,
-    "explorer.confirmDragAndDrop": false,
-    "editor.rulers": [
-        92,
-    ],
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    "[markdown]": {
-        "files.trimTrailingWhitespace": false,
-    },
-    "[julia]": {
-        // "editor.detectIndentation": false,
-        // "editor.insertSpaces": true,
-        // "editor.tabSize": 4,
-        "editor.rulers": [92],
-    },
-    "vim.changeWordIncludesWhitespace": true,
-    "vim.easymotion": true,
-    "vim.incsearch": true,
-    "vim.hlsearch": true,
-    "vim.leader": "<space>",
-    "vim.insertModeKeyBindings": [
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
+  "julia.enableTelemetry": true,
+  "window.zoomLevel": 1,
+  "explorer.confirmDragAndDrop": false,
+  "editor.rulers": [92],
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
+  "[julia]": {
+    // "editor.detectIndentation": false,
+    // "editor.insertSpaces": true,
+    // "editor.tabSize": 4,
+    "editor.rulers": [92]
+  },
+  "vim.changeWordIncludesWhitespace": true,
+  "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.leader": "<space>",
+  "vim.insertModeKeyBindings": [
     //   {
     //     "before": ["j", "j"],
     //     "after": ["<Esc>"]
     //   }
-    ],
-    "vim.normalModeKeyBindingsNonRecursive": [
-      {
-        "before": ["<leader>", "d"],
-        "after": ["d", "d"]
-      },
-      {
-        "before": ["<C-n>"],
-        "commands": [":nohl"]
-      }
-    ],
-    "vim.useSystemClipboard": true,
-    "terminal.integrated.inheritEnv": false,
-    "explorer.confirmDelete": false,
-    "timeline.pageSize": 0,
-    // see https://github.com/VSCodeVim/Vim/#windows
-    // and occurrences of 'vim.use<C' within https://github.com/VSCodeVim/Vim/blob/master/package.json
-    // and supported operation here https://github.com/VSCodeVim/Vim/blob/master/ROADMAP.md
-    // "vim.useCtrlKeys": true,
-    // "vim.handleKeys": {
-    //   "<C-a>": false,
-    //   "<C-f>": false
-    // }
-    "markdownlint.config": {
-      "MD007": {"indent": 4},
-      "MD013": {
-        "line_length": 92,
-        "code_block_line_length": 92,
-      },
-      "MD024": {"siblings_only": true},
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "d"],
+      "after": ["d", "d"]
+    },
+    {
+      "before": ["<C-n>"],
+      "commands": [":nohl"]
+    }
+  ],
+  "vim.useSystemClipboard": true,
+  "terminal.integrated.inheritEnv": false,
+  "explorer.confirmDelete": false,
+  "timeline.pageSize": 0,
+  // see https://github.com/VSCodeVim/Vim/#windows
+  // and occurrences of 'vim.use<C' within https://github.com/VSCodeVim/Vim/blob/master/package.json
+  // and supported operation here https://github.com/VSCodeVim/Vim/blob/master/ROADMAP.md
+  // "vim.useCtrlKeys": true,
+  // "vim.handleKeys": {
+  //   "<C-a>": false,
+  //   "<C-f>": false
+  // }
+  "markdownlint.config": {
+    "MD007": { "indent": 4 },
+    "MD013": {
+      "line_length": 92,
+      "code_block_line_length": 92
+    },
+    "MD024": { "siblings_only": true }
   },
   "files.watcherExclude": {
     "**/.direnv/**": true
   },
-  "terminal.integrated.commandsToSkipShell": [
-    "language-julia.interrupt"
-  ],
+  "terminal.integrated.commandsToSkipShell": ["language-julia.interrupt"],
   "julia.symbolCacheDownload": true,
   "julia.enableCrashReporter": false,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }

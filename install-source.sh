@@ -1,19 +1,5 @@
 #!/bin/sh
 
-# asdf
-#   homebrew install is problematic: https://github.com/asdf-vm/asdf/issues/785
-if [ ! -d ~/.asdf ]; then
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-  cd ~/.asdf && git checkout "$(git describe --abbrev=0 --tags)"
-  if [ -n "$ZSH_VERSION" ]; then
-    . ~/.zshrc
-  else
-    . ~/.bashrc
-  fi
-  asdf plugin-add nodejs
-  asdf plugin-add julia
-fi
-
 # fzf
 #   homebrew install only replaces the first (git clone) step &
 #   conda install is incompatible with customizing install args

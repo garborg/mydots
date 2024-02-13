@@ -80,8 +80,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     direnv
+    fnm
     git
-    nvm
 )
 # see list of plugins: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 # e.g. fd, gh, keychain, ripgrep, rsync, ssh-agent, tmux, vi-mode, vim-interaction
@@ -135,3 +135,6 @@ path=('/Users/sean/.juliaup/bin' $path)
 export PATH
 
 # <<< juliaup initialize <<<
+
+# fnm (fast nvm)
+eval "$(fnm env --use-on-cd)"

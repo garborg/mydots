@@ -10,3 +10,9 @@ fi
 
 # utilities
 brew install coreutils direnv fd git git-delta gnupg ripgrep tmux
+
+# javascript
+brew install fnm
+
+# julia
+brew install juliaup
