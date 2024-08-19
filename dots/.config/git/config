@@ -42,3 +42,5 @@
 	diffFilter = delta --color-only
 [init]
 	defaultBranch = main
+[pull]
+	ff = only

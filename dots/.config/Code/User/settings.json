@@ -66,5 +66,8 @@
   "julia.enableCrashReporter": false,
   "files.associations": {
     "*.css": "tailwindcss"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

@@ -23,4 +23,4 @@ git config --global interactive.diffFilter "delta --color-only"
 # chrome, firefox, notion, etc.
 # Code:
 # - from: https://code.visualstudio.com/download
-# - extensions: EditorConfig, Julia, Python, Vim
+# - extensions: Julia, Python, Vim, etc.

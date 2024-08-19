@@ -110,11 +110,6 @@ if command -v fd > /dev/null 2>&1; then
 fi
 export FZF_CTRL_R_OPTS='--sort'
 
-# version manager
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-  . "$HOME/.asdf/asdf.sh"
-fi
-
 ## Language specific
 
 # julia
